@@ -6,7 +6,7 @@ Purpose:
 '''
 from Map import Map
 class Player:
-    def __init__(self,name,num_ships):
+    def __init__(self):
         self.playerMap = Map()
         self.opponentMap = Map()
     def displayMaps(self):
@@ -18,7 +18,8 @@ class Player:
         self.playerMap.display()
     def updateOpponent(self,row,col):
         #Update the map 
-        pass
+        self.opponentMap.updateOpponentMap(row,col)
+        self.opponentMap.display()
     def updatePlayer(self,row,col):
         #Update the map
-        pass
+        self.playerMap.updatePlayerMap(row,col)
