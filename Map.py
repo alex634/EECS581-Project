@@ -15,6 +15,6 @@ class Map:
     def update_map(self,row,col):
         #Checks if it was a hit/miss/sunk and updates accordinally
         pass
-    def print_map(self):
+    def display(self):
         #displays the map
         pass
