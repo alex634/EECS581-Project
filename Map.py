@@ -12,8 +12,14 @@ class Map:
     def add_ship(self,length,start,direction):
         ship = Ships(length)
         #Check if space is free
-    def update_map(self,row,col):
-        #Checks if it was a hit/miss/sunk and updates accordinally
+    def updatePlayerMap(self,row,col):
+        #If hit replace S with X
+        #If miss add O
+        pass
+    def updateOpponentMap(self,row,col):
+        #If hit add X
+        #If miss add O
+        #If sunk replace all with S
         pass
     def display(self):
         #displays the map
