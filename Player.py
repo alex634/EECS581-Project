@@ -20,8 +20,9 @@ class Player:
         self.playerMap.display()
     def updateOpponent(self,row,col):
         #Update the map 
-        self.opponentMap.updateOpponentMap(row,col)
+        result = self.opponentMap.updateOpponentMap(row,col)
         self.opponentMap.display()
+        return result
     def updatePlayer(self,row,col):
         #Update the map
         self.playerMap.updatePlayerMap(row,col)
