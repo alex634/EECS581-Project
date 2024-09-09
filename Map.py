@@ -13,7 +13,7 @@ class Map:
         ship = Ships(length)
         #Check if space is free
     def updatePlayerMap(self,row,col):
-        #If hit replace S with X
+        #If hit replace # with X
         #If miss add O
         pass
     def updateOpponentMap(self,row,col):
