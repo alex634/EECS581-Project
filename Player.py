@@ -24,10 +24,4 @@ class Player:
     def updatePlayer(self,row,col):
         #Update the map
         self.playerMap.updatePlayerMap(row,col)
-    def isWinner(self):
-        self.numsunk += 1
-        if self.numsunk == self.numofships:
-            return True
-        else:
-            return False
-        
+
