@@ -11,7 +11,9 @@ class Player:
         self.opponentMap = Map()
     def displayMaps(self):
         #display both boards
+        print('Your Board')
         self.playerMap.display()
+        print('Opponents Board')
         self.opponentMap.display()
     def addShip(self,length,direction,start):
         self.playerMap.add_ship(length,direction,start)
