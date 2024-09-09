@@ -6,11 +6,9 @@ Purpose:
 '''
 from Map import Map
 class Player:
-    def __init__(self,numofships):
+    def __init__(self):
         self.playerMap = Map()
         self.opponentMap = Map()
-        self.numofships = numofships
-        self.numsunk = 0
     def displayMaps(self):
         #display both boards
         self.playerMap.display()
