@@ -5,20 +5,36 @@ Last modified: 09/09/2024
 Purpose: 
 '''
 from Player import Player
-def clear():
-    #ask player to enter
-    #clear terminal
-    #ask player to pass to next player
-    #ask next player to press enter
-    #return 
-    #where you return will then need to print the next player's boards
-    pass
-def placeShips(player,numShips):
-    #make the player place ships
-    #start with the highest number first
-    pass
-def turn(player1, player2):
-    #use a while loop to 
-    pass
+from Map import Map
+
 def main():
-    pass
+    p1 = Player()                                       # both players are created
+    p2 = Player()
+
+    numShips = 0
+    while True:                                         # loop asks how many ships there will be in play
+        i = input("Enter number of ships for game: ")
+        if i.isdigit() == True:
+            i = int(i)
+            if i >= 1 and i <= 5:
+                numShips = i
+                break
+    
+    placeShips(p1, numShips)                            # both players will place their ships
+    placeShips(p2, numShips)
+
+    return 0
+
+def placeShips(player, numShips):
+    
+    return 0
+
+
+def turn():
+    return 0
+
+def clear():
+    return 0
+
+
+main()
