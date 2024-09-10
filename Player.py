@@ -17,13 +17,13 @@ class Player:
         print('Opponents Board')
         self.opponentMap.display()
 
-    def addToFleet(self,length,direction,start):
-        self.playerMap.placeShip(length,direction,start)
+    def addToFleet(self,length,row,col,direction):
+        self.playerMap.placeShip(length,row,col,direction)
         self.playerMap.display()
 
-    def updateOpponent(self,row,col):
+    def updateOpponent(self,row,col,opponent):
         #Update the map 
-        result = self.opponentMap.updateOpponentMap(row,col)
+        result = self.opponentMap.updateOpponentMap(row,col,opponent)
         self.opponentMap.display()
         return result
     
