@@ -12,7 +12,7 @@ class Map:
         self.ships = []
 
 
-    def add_ship(self, length, row, col, direction):
+    def placeShip(self, length, row, col, direction):
         direction = direction.lower()
         if direction not in ['left', 'right', 'up', 'down']:
             raise ValueError("Invalid direction")
@@ -46,7 +46,7 @@ class Map:
 
         possible = all(element == " " for element in section)
         if possible:
-            self.ships.append(Ship(length))
+            self.ships.append(Ships(length))
             if direction == 'right':
                 for new_col in range(col, end):
                     self.map[row][new_col] = 'S'
