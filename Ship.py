@@ -5,7 +5,7 @@ Last modified: 09/09/2024
 Purpose: 
 '''
 class Ships:
-    def __init__(self,length, location):
+    def __init__(self,length):
         self.hits = 0
         self.length = length
         self.sunk = False
