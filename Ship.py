@@ -14,3 +14,6 @@ class Ships:
         self.hits += 1
         if self.hits == self.length:
             self.sunk = True
+    def updatelocation(self, row, col):
+        list = [row, col]
+        self.locations.append(list)
