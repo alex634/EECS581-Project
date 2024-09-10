@@ -46,21 +46,26 @@ class Map:
 
         possible = all(element == " " for element in section)
         if possible:
-            self.ships.append(Ships(length,section))
+            ship = Ships(length)
             if direction == 'right':
                 for new_col in range(col, end):
+                    ship.updatelocation(row, new_col)
                     self.map[row][new_col] = 'S'
+                    
 
             elif direction == 'left':
                 for new_col in range(end + 1, col + 1):
+                    ship.updatelocation(row, new_col)
                     self.map[row][new_col] = 'S'
 
             elif direction == 'down':
                 for new_row in range(row, end):
+                    ship.updatelocation(new_row, col)
                     self.map[new_row][col] = 'S'
 
             elif direction == 'up':
                 for new_row in range(end + 1, row + 1):
+                    ship.updatelocation(new_row, col)
                     self.map[new_row][col] = 'S'
 
             return True
@@ -69,19 +74,28 @@ class Map:
     def updatePlayerMap(self,row,col):
         if self.map[row][col] == 'S':
             self.map[row][col] = 'X'
+            for ship in opponent.playerMap.ships:
+                if [row, col] in ship.positions:
+                    ship.hit()
             return True
         else:
             self.map[row][col] = 'O'
             return False
         pass
-    def updateOpponentMap(self,row,col):
-        if self.map[row][col] == 'S':
-            self.map[row][col] = 'X'
+    def updateOpponentMap(self,row,col, opponent):
+        if opponent.playerMap.map[row][col] == "S":
+            self.map[row][col] = "X"
+            for ship in opponent.playerMap.ships:
+                if [row, col] in ship.positions:
+                    if ship.sunk == True:
+                        for [row, col] in ship.positions:
+                            opponent.map[r][c] = 'S'  
+                    break
             return True
         else:
-            self.map[row][col] = 'O'
-            return False        
-        pass
+            opponent.map[row][col] = 'O'  # A miss
+            return False
+
     def display(self):
         print("  ", end="")
         for element in self.col:
