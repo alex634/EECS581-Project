@@ -9,7 +9,7 @@ class Ships:
         self.hits = 0
         self.length = length
         self.sunk = False
-        self.location = location
+        self.locations = []
     def hit(self):
         self.hits += 1
         if self.hits == self.length:
