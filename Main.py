@@ -8,11 +8,13 @@ from Player import Player
 from Map import Map
 
 def main():
-    p1 = Player()                                       # both players are created
+    # both players are created
+    p1 = Player()                                       
     p2 = Player()
 
+    # loop asks how many ships there will be in play
     numShips = 0
-    while True:                                         # loop asks how many ships there will be in play
+    while True:                                         
         i = input("Enter number of ships for game: ")
         if i.isdigit() == True:
             i = int(i)
@@ -20,17 +22,26 @@ def main():
                 numShips = i
                 break
     
-    placeShips(p1, numShips)                            # both players will place their ships
-    placeShips(p2, numShips)
+    # both players will take turns to place their ships
+    placeShipTurn(p1, numShips)                            
+    placeShipTurn(p2, numShips)
 
-    return 0
-
-def placeShips(player, numShips):
-    
-    return 0
+    turn(p1,p2)
 
 
-def turn():
+def placeShipTurn(player, numShips): 
+    length = numShips
+    while numShips >= 0:
+        start = input("Enter starting position (EX: B2): ")
+        direction = input("Enter a direction to place your ship (left, right, up, down): ")
+        player.addToFleet(length, direction, start)
+        length -= 1
+
+
+
+def turn(player1, player2):
+
+    clear()
     return 0
 
 def clear():
