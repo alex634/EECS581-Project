@@ -46,7 +46,7 @@ class Map:
 
         possible = all(element == " " for element in section)
         if possible:
-            self.ships.append(Ships(length))
+            self.ships.append(Ships(length,section))
             if direction == 'right':
                 for new_col in range(col, end):
                     self.map[row][new_col] = 'S'
@@ -67,13 +67,20 @@ class Map:
 
         return False
     def updatePlayerMap(self,row,col):
-        #If hit replace # with X
-        #If miss add O
+        if self.map[row][col] == 'S':
+            self.map[row][col] = 'X'
+            return True
+        else:
+            self.map[row][col] = 'O'
+            return False
         pass
     def updateOpponentMap(self,row,col):
-        #If hit add X
-        #If miss add O
-        #If sunk replace all with S
+        if self.map[row][col] == 'S':
+            self.map[row][col] = 'X'
+            return True
+        else:
+            self.map[row][col] = 'O'
+            return False        
         pass
     def display(self):
         print("  ", end="")
