@@ -10,6 +10,8 @@ class Map:
     def __init__(self):
         self.map = [[" " for i in range(10)] for j in range(10)]
         self.ships = []
+        self.col = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        self.rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 
 
     def placeShip(self, length, row, col, direction):
@@ -93,7 +95,7 @@ class Map:
                     break
             return True
         else:
-            opponent.map[row][col] = 'O'  # A miss
+            self.map[row][col] = 'O'
             return False
 
     def display(self):
