@@ -73,18 +73,20 @@ class Map:
             return True
 
         return False
-    def updatePlayerMap(self,row,col):
+    def updatePlayerMap(self,row,col, opponent):
         if self.map[row][col] == 'S':
             self.map[row][col] = 'X'
             for ship in opponent.playerMap.ships:
                 if [row, col] in ship.positions:
                     ship.hit()
+                    print("><><><>< SHIP HAS BEEN HIT!!! ><><><><")
             return True
         else:
             self.map[row][col] = 'O'
+            print("SHOT HAS MISSED!!! :(")
             return False
         pass
-    def updateOpponentMap(self,row,col, opponent):
+    def updateOpponentMap(self, row, col, opponent):
         if opponent.playerMap.map[row][col] == "S":
             self.map[row][col] = "X"
             for ship in opponent.playerMap.ships:
