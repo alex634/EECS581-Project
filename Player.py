@@ -9,6 +9,7 @@ class Player:
     def __init__(self):
         self.playerMap = Map()
         self.opponentMap = Map()
+        self.fleetNum = 0
         
     def displayMaps(self):
         #display both boards
@@ -17,13 +18,14 @@ class Player:
         print('Opponents Board')
         self.opponentMap.display()
 
-    def addToFleet(self,length,row,col,direction):
-        self.playerMap.placeShip(length,row,col,direction)
+    def addToFleet(self,length,direction,start):
+        self.playerMap.placeShip(length,direction,start)
+        self.fleetNum += 1
         self.playerMap.display()
 
-    def updateOpponent(self,row,col,opponent):
+    def updateOpponent(self,row,col):
         #Update the map 
-        result = self.opponentMap.updateOpponentMap(row,col,opponent)
+        result = self.opponentMap.updateOpponentMap(row,col)
         self.opponentMap.display()
         return result
     
