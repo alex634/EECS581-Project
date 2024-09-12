@@ -52,23 +52,23 @@ class Map:
             if direction == 'right':
                 for new_col in range(col, end):
                     ship.updatelocation(row, new_col)
-                    self.map[row][new_col] = 'S'
+                    self.map[row][new_col] = length
                     
 
             elif direction == 'left':
                 for new_col in range(end + 1, col + 1):
                     ship.updatelocation(row, new_col)
-                    self.map[row][new_col] = 'S'
+                    self.map[row][new_col] = length
 
             elif direction == 'down':
                 for new_row in range(row, end):
                     ship.updatelocation(new_row, col)
-                    self.map[new_row][col] = 'S'
+                    self.map[new_row][col] = length
 
             elif direction == 'up':
                 for new_row in range(end + 1, row + 1):
                     ship.updatelocation(new_row, col)
-                    self.map[new_row][col] = 'S'
+                    self.map[new_row][col] = length
             self.ships.append(ship)
 
             return True
