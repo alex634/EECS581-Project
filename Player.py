@@ -18,17 +18,18 @@ class Player:
         print('Opponents Board')
         self.opponentMap.display()
 
-    def addToFleet(self,length,direction,start):
-        self.playerMap.placeShip(length,direction,start)
+    def addToFleet(self,length,direction,row,col):
+        self.playerMap.placeShip(length,row,col,direction)
         self.fleetNum += 1
         self.playerMap.display()
 
-    def updateOpponent(self,row,col):
+    def updateOpponent(self,row,col,opponent):
         #Update the map 
-        result = self.opponentMap.updateOpponentMap(row,col)
+        result = self.opponentMap.updateOpponentMap(row,col,opponent)
         self.opponentMap.display()
         return result
     
-    def updatePlayer(self,row,col):
+    def updatePlayer(self,row,col,opponent):
         #Update the map
-        self.playerMap.updatePlayerMap(row,col)
+        result = self.playerMap.updatePlayerMap(row,col,opponent)
+        return result
