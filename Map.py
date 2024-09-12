@@ -69,6 +69,7 @@ class Map:
                 for new_row in range(end + 1, row + 1):
                     ship.updatelocation(new_row, col)
                     self.map[new_row][col] = 'S'
+            self.ships.append(ship)
 
             return True
 
