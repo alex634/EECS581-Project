@@ -31,5 +31,5 @@ class Player:
     
     def updatePlayer(self,row,col,opponent):
         #Update the map
-        result = self.playerMap.updatePlayerMap(row,col,opponent)
-        return result
+        self.playerMap.updatePlayerMap(row,col,opponent)
+        
