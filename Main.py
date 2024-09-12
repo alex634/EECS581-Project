@@ -1,3 +1,4 @@
+
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
@@ -6,7 +7,7 @@ Purpose:
 '''
 import os
 from Player import Player
-from Map import Map
+
 
 def main():
     # both players are created
@@ -42,12 +43,21 @@ def main():
         print("Player 1 Wins!!!")
 
 # function that handles placing ships on the board
-def placeShipTurn(player, numShips): 
+def placeShipTurn(player, numShips):
+    player.displayEmpty() 
     length = numShips
     while numShips >= 0:
-        start = input("Enter starting position (EX: B2): ")
-        direction = input("Enter a direction to place your ship (left, right, up, down): ")
-        player.addToFleet(length, direction, start)
+        print('Place a 1x' + str(length) + ' ship')
+        if length == 1:
+            row = input("Enter starting column (EX: B): ")
+            col = input("Enter starting column (EX: 1): ")
+            
+            player.addToFleet(length, row, col, direction)
+        else:
+            row = input("Enter starting column (EX: B): ")
+            col = input("Enter starting column (EX: 1): ")
+            direction = input("Enter a direction to place your ship (left, right, up, down): ")
+            player.addToFleet(length, row,col,direction)
         length -= 1
 
 # function that handles a player's turn
@@ -67,16 +77,12 @@ def turn(player, opponent):
 
 # function that clears the terminal and prompt the next turn
 def clear():
+    input("Player hit ENTER key.")
     os.system('cls' if os.name == 'nt' else 'clear')
 
     print("Give computer to next player.")
     input("Next player hit ENTER key.")
 
     os.system('cls' if os.name == 'nt' else 'clear')
-
-
-
-
-
 
 main()
