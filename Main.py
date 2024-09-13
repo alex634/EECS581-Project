@@ -63,6 +63,8 @@ def placeShipTurn(player, numShips):
             direction = get_direction()
             player.addToFleet(length, row,col,direction)
         length -= 1
+
+# function that gets the column coordinate
 def get_column():
     while True:
         col = input("Enter starting column (EX: B): ").upper()
@@ -71,6 +73,7 @@ def get_column():
         else:
             print("Invalid column. Please enter a letter between A and J.")
 
+# function that gets the row coordinates
 def get_row():
     while True:
         row = input("Enter starting row (EX: 1): ")
@@ -78,6 +81,8 @@ def get_row():
             return int(row) - 1
         else:
             print("Invalid row. Please enter a number between 1 and 10.")
+
+# function that gets the direction for the ship
 def get_direction():
     while True:
         direction = input("Enter a direction to place your ship (left, right, up, down): ").lower()
