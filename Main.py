@@ -74,7 +74,9 @@ def placeShipTurn(player, numShips):
 def get_column():
     while True:
         col = input("Enter starting column (EX: B): ").upper()
-        if col in "ABCDEFGHIJ":  
+        if col == "":
+            print("Invalid column. Please enter a letter between A and J.")
+        elif col in "ABCDEFGHIJ":  
             return ord(col) - ord('A')  
         else:
             print("Invalid column. Please enter a letter between A and J.")
