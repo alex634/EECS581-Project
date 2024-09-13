@@ -52,17 +52,26 @@ def placeShipTurn(player, numShips):
     player.displayEmpty()
     length = numShips
     while length > 0:
-        print('Place a 1x' + str(length) + ' ship')
-        if length == 1:
-            col = get_column()
-            row = get_row()
-            direction = "up"
-            player.addToFleet(length, row, col, direction)
-        else:
-            col = get_column()
-            row = get_row()
-            direction = get_direction()
-            player.addToFleet(length, row,col,direction)
+        while True:
+            print('Place a 1x' + str(length) + ' ship')
+            if length == 1:
+                col = get_column()
+                row = get_row()
+                direction = "up"
+                added =player.addToFleet(length, row, col, direction)
+                if added == False:
+                    print("Please input a valid space! Remember you can't place on top of other ships or off the map")
+                else:
+                    break
+            else:
+                col = get_column()
+                row = get_row()
+                direction = get_direction()
+                player.addToFleet(length, row,col,direction)
+                if added == False:
+                    print("Please input a valid space! Remember you can't place on top of other ships or off the map")
+                else:
+                    break
         length -= 1
 
 # function that gets the column coordinate
