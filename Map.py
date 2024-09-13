@@ -94,7 +94,7 @@ class Map:
                     if ship.sunk == True:
                         print("YOU HAVE SUNK A SHIP!")
                         for [row, col] in ship.locations:
-                            opponent.map[r][c] = ship.length
+                            self.map[r][c] = ship.length
                             return 2
                     break
             return 1
