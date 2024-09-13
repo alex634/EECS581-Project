@@ -53,7 +53,6 @@ def placeShipTurn(player, numShips):
     while length > 0:
         print('Place a 1x' + str(length) + ' ship')
         if length == 1:
-
             col = get_column()
             row = get_row()
             direction = "up"
@@ -64,6 +63,8 @@ def placeShipTurn(player, numShips):
             direction = get_direction()
             player.addToFleet(length, row,col,direction)
         length -= 1
+
+# function gets the column coordinate
 def get_column():
     while True:
         col = input("Enter starting column (EX: B): ").upper()
@@ -72,6 +73,7 @@ def get_column():
         else:
             print("Invalid column. Please enter a letter between A and J.")
 
+# function gets the row coordinate
 def get_row():
     while True:
         row = input("Enter starting row (EX: 1): ")
@@ -79,6 +81,8 @@ def get_row():
             return int(row) - 1  
         else:
             print("Invalid row. Please enter a number between 1 and 10.")
+
+# function gets the direction where the ship will be placed
 def get_direction():
     while True:
         direction = input("Enter a direction to place your ship (left, right, up, down): ").lower()
@@ -86,14 +90,15 @@ def get_direction():
             return direction
         else:
             print("Invalid direction. Please enter 'left', 'right', 'up', or 'down'.")
+
 # function that handles a player's turn
 def turn(player, opponent):
     player.displayMaps()
     col = get_column()
     row = get_row()
 
+    player.updateOpponent(row, col, opponent)
     player.updatePlayer(row, col, opponent)
-    player.updateOponent(row, col, opponent)
 
 
 
@@ -105,7 +110,6 @@ def clear():
 
     print("Give computer to next player.")
     input("Next player hit ENTER key.")
-
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
