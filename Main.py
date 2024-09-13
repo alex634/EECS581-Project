@@ -3,7 +3,7 @@
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
 Last modified: 09/09/2024
-Purpose: 
+Purpose:
 '''
 import os
 from Player import Player
@@ -11,12 +11,12 @@ from Player import Player
 
 def main():
     # both players are created
-    p1 = Player()                                       
+    p1 = Player()
     p2 = Player()
 
     # loop asks how many ships there will be in play
     numShips = 0
-    while True:                                         
+    while True:
         i = input("Enter number of ships (1-5) for game: ")
         if i.isdigit() == True:
             i = int(i)
@@ -25,10 +25,10 @@ def main():
                 break
         else:
             print("Invalid Input")
-    
+
     # both players will take turns to place their ships
-    placeShipTurn(p1, numShips) 
-    clear()                           
+    placeShipTurn(p1, numShips)
+    clear()
     placeShipTurn(p2, numShips)
     clear()
 
@@ -43,55 +43,45 @@ def main():
         if p2.opponentSunk == 0:
             print("Player 2 Wins!!!")
         clear()
-    
+
 
 # function that handles placing ships on the board
 def placeShipTurn(player, numShips):
-    player.displayEmpty() 
+    player.displayEmpty()
     length = numShips
-    
     while length > 0:
         print('Place a 1x' + str(length) + ' ship')
         if length == 1:
-            isValid = False
-            while not isValid:
-                col = get_column()
-                row = get_row()
-                direction = "up"
-                isValid = player.addToFleet(length, row, col, direction)
-                if not isValid:
-                    print("Invalid placement")
+
+            col = get_column()
+            row = get_row()
+            direction = "up"
+            player.addToFleet(length, row, col, direction)
         else:
-            isValid = False
-            while isValid == False:
-                col = get_column()
-                row = get_row()
-                direction = get_direction()
-                isValid = player.addToFleet(length, row, col, direction)
-                if not isValid:
-                    print("Invalid placement")
+            col = get_column()
+            row = get_row()
+            direction = get_direction()
+            player.addToFleet(length, row,col,direction)
         length -= 1
 def get_column():
     while True:
         col = input("Enter starting column (EX: B): ").upper()
-        if col == "":
-            print("Invalid column. Please enter a letter between A and J.")
-        elif col in "ABCDEFGHIJ":  
-            return ord(col) - ord('A')  
+        if col in "ABCDEFGHIJ":
+            return ord(col) - ord('A')
         else:
             print("Invalid column. Please enter a letter between A and J.")
 
 def get_row():
     while True:
         row = input("Enter starting row (EX: 1): ")
-        if row.isdigit() and 1 <= int(row) <= 10:  
-            return int(row) - 1  
+        if row.isdigit() and 1 <= int(row) <= 10:
+            return int(row) - 1
         else:
             print("Invalid row. Please enter a number between 1 and 10.")
 def get_direction():
     while True:
         direction = input("Enter a direction to place your ship (left, right, up, down): ").lower()
-        if direction in ["left", "right", "up", "down"]: 
+        if direction in ["left", "right", "up", "down"]:
             return direction
         else:
             print("Invalid direction. Please enter 'left', 'right', 'up', or 'down'.")
@@ -101,8 +91,8 @@ def turn(player, opponent):
     col = get_column()
     row = get_row()
 
+    opponent.updatePlayer(row, col, opponent)
     player.updateOpponent(row, col, opponent)
-    opponent.updatePlayer(row, col, player)
 
 
 
