@@ -91,8 +91,8 @@ def turn(player, opponent):
     col = get_column()
     row = get_row()
 
-    player.updateOpponent(row, col, opponent)
     player.updatePlayer(row, col, opponent)
+    player.updateOponent(row, col, opponent)
 
 
 
