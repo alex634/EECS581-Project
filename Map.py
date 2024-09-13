@@ -74,8 +74,8 @@ class Map:
 
         return False
     def updatePlayerMap(self,row,col, opponent):
-        if self.map[row][col] == "X":
-            return False
+        if self.map[row][col] == "X" or self.map[row][col] == 'O':
+            return 0
         if self.map[row][col] == 1 or self.map[row][col] == 2 or self.map[row][col] == 3 or self.map[row][col] == 4 or self.map[row][col] == 5:
             self.map[row][col] = 'X'
             for ship in self.ships:
@@ -86,8 +86,8 @@ class Map:
         pass
 
     def updateOpponentMap(self, row, col, opponent):
-        if self.map[row][col] =="X":
-            return False
+        if self.map[row][col] =="X" or if self.map[row][col] == 1 or if self.map[row][col] == 2 or if self.map[row][col] == 3 or if self.map[row][col] == 4 or if self.map[row][col] == 5:
+            return 0
         if opponent.playerMap.map[row][col] == "X":
             self.map[row][col] = "X"
             print("><><><>< SHIP HAS BEEN HIT!!! ><><><><")
