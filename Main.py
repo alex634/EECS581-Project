@@ -1,3 +1,4 @@
+
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
@@ -41,7 +42,6 @@ def main():
         turn(p2,p1)
         if p2.opponentSunk == 0:
             print("Player 2 Wins!!!")
-            exit()
         clear()
     
 
@@ -49,21 +49,28 @@ def main():
 def placeShipTurn(player, numShips):
     player.displayEmpty() 
     length = numShips
+    
     while length > 0:
         print('Place a 1x' + str(length) + ' ship')
         if length == 1:
-            col = get_column()
-            row = get_row()
-            direction = "up"
-            player.addToFleet(length, row, col, direction)
+            isValid = False
+            while not isValid:
+                col = get_column()
+                row = get_row()
+                direction = "up"
+                isValid = player.addToFleet(length, row, col, direction)
+                if not isValid:
+                    print("Invalid placement")
         else:
-            col = get_column()
-            row = get_row()
-            direction = get_direction()
-            player.addToFleet(length, row,col,direction)
+            isValid = False
+            while isValid == False:
+                col = get_column()
+                row = get_row()
+                direction = get_direction()
+                isValid = player.addToFleet(length, row, col, direction)
+                if not isValid:
+                    print("Invalid placement")
         length -= 1
-
-# function gets the column coordinate
 def get_column():
     while True:
         col = input("Enter starting column (EX: B): ").upper()
@@ -72,7 +79,6 @@ def get_column():
         else:
             print("Invalid column. Please enter a letter between A and J.")
 
-# function gets the row coordinate
 def get_row():
     while True:
         row = input("Enter starting row (EX: 1): ")
@@ -80,8 +86,6 @@ def get_row():
             return int(row) - 1  
         else:
             print("Invalid row. Please enter a number between 1 and 10.")
-
-# function gets the direction where the ship will be placed
 def get_direction():
     while True:
         direction = input("Enter a direction to place your ship (left, right, up, down): ").lower()
@@ -89,7 +93,6 @@ def get_direction():
             return direction
         else:
             print("Invalid direction. Please enter 'left', 'right', 'up', or 'down'.")
-
 # function that handles a player's turn
 def turn(player, opponent):
     player.displayMaps()
@@ -97,7 +100,7 @@ def turn(player, opponent):
     row = get_row()
 
     player.updateOpponent(row, col, opponent)
-    player.updatePlayer(row, col, opponent)
+    opponent.updatePlayer(row, col, player)
 
 
 
@@ -109,6 +112,7 @@ def clear():
 
     print("Give computer to next player.")
     input("Next player hit ENTER key.")
+
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
