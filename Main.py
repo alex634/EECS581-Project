@@ -1,4 +1,3 @@
-
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
@@ -35,6 +34,8 @@ def main():
     # main game loop
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:
         turn(p1,p2)
+        
+        # if statements that check if either player has won
         if p1.opponentSunk == 0:
             print("Player 1 Wins!!!")
             exit()
@@ -53,7 +54,6 @@ def placeShipTurn(player, numShips):
     while length > 0:
         print('Place a 1x' + str(length) + ' ship')
         if length == 1:
-
             col = get_column()
             row = get_row()
             direction = "up"
