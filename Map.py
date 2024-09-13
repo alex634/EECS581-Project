@@ -86,7 +86,7 @@ class Map:
         pass
 
     def updateOpponentMap(self, row, col, opponent):
-        if opponent.playerMap.map[row][col] =="X":
+        if self.map[row][col] =="X":
             return False
         if opponent.playerMap.map[row][col] == 1 or opponent.playerMap.map[row][col] == 2 or opponent.playerMap.map[row][col] == 3 or opponent.playerMap.map[row][col] == 4 or opponent.playerMap.map[row][col] == 5:
             self.map[row][col] = "X"
