@@ -1,9 +1,8 @@
-
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
 Last modified: 09/09/2024
-Purpose: 
+Purpose:
 '''
 from Ship import Ships
 
@@ -18,14 +17,13 @@ class Map:
     def placeShip(self, length, row, col, direction):
         direction = direction.lower()
         if direction not in ['left', 'right', 'up', 'down']:
-            raise ValueError("Invalid direction")
+            return False
 
         if row < 0 or row >= len(self.map) or col < 0 or col >= len(self.map[0]):
-            raise ValueError("Invalid starting input")
-
+            return False
         if direction == 'right':
             end = col + length
-            if end > len(self.map[0]): 
+            if end > len(self.map[0]):
                 return False
             section = [self.map[row][ncol] for ncol in range(col, end)]
 
@@ -54,7 +52,7 @@ class Map:
                 for new_col in range(col, end):
                     ship.updatelocation(row, new_col)
                     self.map[row][new_col] = length
-                    
+
 
             elif direction == 'left':
                 for new_col in range(end + 1, col + 1):
@@ -76,16 +74,20 @@ class Map:
 
         return False
     def updatePlayerMap(self,row,col, opponent):
-        if self.map[row][col] == 'S':
+        if self.map[row][col] == "X":
+            return False
+        if self.map[row][col] == 1 or self.map[row][col] == 2 or self.map[row][col] == 3 or self.map[row][col] == 4 or self.map[row][col] == 5:
             self.map[row][col] = 'X'
-            for ship in opponent.playerMap.ships:
+            for ship in self.ships:
                 if [row, col] in ship.locations:
                     ship.hit()
         else:
             self.map[row][col] = 'O'
         pass
-        
+
     def updateOpponentMap(self, row, col, opponent):
+        if opponent.playerMap.map[row][col] =="X":
+            return False
         if opponent.playerMap.map[row][col] == 1 or opponent.playerMap.map[row][col] == 2 or opponent.playerMap.map[row][col] == 3 or opponent.playerMap.map[row][col] == 4 or opponent.playerMap.map[row][col] == 5:
             self.map[row][col] = "X"
             print("><><><>< SHIP HAS BEEN HIT!!! ><><><><")
