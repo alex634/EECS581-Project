@@ -73,10 +73,11 @@ class Map:
             return True
 
         return False
+    
     def updatePlayerMap(self,row,col, opponent):
         if self.map[row][col] == "X" or self.map[row][col] == 'O':
             return 0
-        if isinstance(self.map[row][col], int)::
+        if isinstance(self.map[row][col], int):
             self.map[row][col] = 'X'
             for ship in self.ships:
                 if [row, col] in ship.locations:
@@ -86,7 +87,7 @@ class Map:
         return 1
 
     def updateOpponentMap(self, row, col, opponent):
-        if self.map[row][col] =="X" or if isinstance(self.map[row][col], int)::
+        if self.map[row][col] =="X" or if isinstance(self.map[row][col], int):
             return 0
         if opponent.playerMap.map[row][col] == "X":
             self.map[row][col] = "X"
