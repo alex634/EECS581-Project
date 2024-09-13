@@ -87,12 +87,17 @@ def get_direction():
             print("Invalid direction. Please enter 'left', 'right', 'up', or 'down'.")
 # function that handles a player's turn
 def turn(player, opponent):
-    player.displayMaps()
-    col = get_column()
-    row = get_row()
+    while True:
+        player.displayMaps()
+        col = get_column()
+        row = get_row()
 
-    opponent.updatePlayer(row, col, opponent)
-    player.updateOpponent(row, col, opponent)
+        opponent_res = opponent.updatePlayer(row, col, opponent)
+        player_res = player.updateOpponent(row, col, opponent)
+        if player_res == 0 or opponent_res == 0:
+            print("You have already shot here, try again")
+        else:
+            break
 
 
 
