@@ -42,6 +42,7 @@ def main():
         turn(p2,p1)
         if p2.opponentSunk == 0:
             print("Player 2 Wins!!!")
+            exit()
         clear()
     
 
