@@ -83,7 +83,7 @@ class Map:
                     ship.hit()
         else:
             self.map[row][col] = 'O'
-        pass
+        return 1
 
     def updateOpponentMap(self, row, col, opponent):
         if self.map[row][col] =="X" or if isinstance(self.map[row][col], int)::
@@ -103,7 +103,7 @@ class Map:
         else:
             self.map[row][col] = 'O'
             print("SHOT HAS MISSED!!! :(")
-            return 0
+            return 1
 
     def display(self):
         print("  ", end="")
