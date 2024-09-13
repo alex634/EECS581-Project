@@ -88,7 +88,7 @@ class Map:
     def updateOpponentMap(self, row, col, opponent):
         if self.map[row][col] =="X":
             return False
-        if opponent.playerMap.map[row][col] == 1 or opponent.playerMap.map[row][col] == 2 or opponent.playerMap.map[row][col] == 3 or opponent.playerMap.map[row][col] == 4 or opponent.playerMap.map[row][col] == 5:
+        if opponent.playerMap.map[row][col] == "X":
             self.map[row][col] = "X"
             print("><><><>< SHIP HAS BEEN HIT!!! ><><><><")
             for ship in opponent.playerMap.ships:
@@ -96,7 +96,7 @@ class Map:
                     if ship.sunk == True:
                         print("YOU HAVE SUNK A SHIP!")
                         for [row, col] in ship.locations:
-                            self.map[r][c] = ship.length
+                            self.map[row][col] = ship.length
                             return 2
                     break
             return 1
