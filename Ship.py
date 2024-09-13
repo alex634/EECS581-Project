@@ -16,6 +16,6 @@ class Ships:
         if self.hits == self.length:    # if the hits number is the same as the length of the ship
             self.sunk = True            # ship will be sunk
     
-    def updatelocation(self, row, col): # function to update the location of the ships with the row and column
+    def updatelocation(self, row, col): # function updates the location of the ships with the row and column
         list = [row, col]               # list variable to put the row and column in a list
         self.locations.append(list)     # it will then add the list to the the location's empty list
