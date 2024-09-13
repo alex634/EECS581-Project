@@ -1,3 +1,4 @@
+
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
@@ -78,21 +79,21 @@ class Map:
         if self.map[row][col] == 'S':
             self.map[row][col] = 'X'
             for ship in opponent.playerMap.ships:
-                if [row, col] in ship.positions:
+                if [row, col] in ship.locations:
                     ship.hit()
         else:
             self.map[row][col] = 'O'
         pass
         
     def updateOpponentMap(self, row, col, opponent):
-        if opponent.playerMap.map[row][col] == 1 or 2 or 3 or 4 or 5:
+        if opponent.playerMap.map[row][col] == 1 or opponent.playerMap.map[row][col] == 2 or opponent.playerMap.map[row][col] == 3 or opponent.playerMap.map[row][col] == 4 or opponent.playerMap.map[row][col] == 5:
             self.map[row][col] = "X"
             print("><><><>< SHIP HAS BEEN HIT!!! ><><><><")
             for ship in opponent.playerMap.ships:
-                if [row, col] in ship.positions:
+                if [row, col] in ship.locations:
                     if ship.sunk == True:
                         print("YOU HAVE SUNK A SHIP!")
-                        for [row, col] in ship.positions:
+                        for [row, col] in ship.locations:
                             opponent.map[r][c] = ship.length
                             return 2
                     break
