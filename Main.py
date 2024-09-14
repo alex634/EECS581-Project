@@ -2,13 +2,21 @@
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
 Last modified: 09/09/2024
-Purpose:
+Purpose: Main file
 '''
 import os
 from Player import Player
 
 
 def main():
+    print("Welcome to the Battleship Game!")
+    print("\nObjective: Sink all of your opponent's ships before they sink yours.")
+    print("Each player will place their ships on their own board.")
+    print("You will take turns to guess the location of your opponent's ships.")
+    print("When a ship is hit, it will be marked on the board.")
+    print("The first player to sink all of the opponent's ships wins!")
+    print("\nLet's get started! Good luck and have fun!")
+
     # both players are created
     p1 = Player()
     p2 = Player()
@@ -26,13 +34,16 @@ def main():
             print("Invalid Input")
 
     # both players will take turns to place their ships
+    print("\nPlayer 1, it's time to place your ships.")
     placeShipTurn(p1, numShips)
     clear()
+    print("\nPlayer 2, it's time to place your ships.")
     placeShipTurn(p2, numShips)
     clear()
 
     # main game loop
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:
+        print("Player 1's Turn")
         turn(p1,p2)
         
         # if statements that check if either player has won
@@ -40,6 +51,7 @@ def main():
             print("Player 1 Wins!!!")
             exit()
         clear()
+        print("Player 2's Turn")
         turn(p2,p1)
         if p2.opponentSunk == 0:
             print("Player 2 Wins!!!")
@@ -112,7 +124,7 @@ def turn(player, opponent):
         opponent_res = opponent.updatePlayer(row, col, opponent)
         player_res = player.updateOpponent(row, col, opponent)
         if player_res == 0 or opponent_res == 0:
-            print("You have already shot here, try again")
+            print("You've already targeted this spot. Try again.")
         else:
             break
 
@@ -121,7 +133,7 @@ def turn(player, opponent):
 
 # function that clears the terminal and prompt the next turn
 def clear():
-    input("Player hit ENTER key.")
+    input("Press ENTER to continue to the next player's turn.")
     os.system('cls' if os.name == 'nt' else 'clear')
 
     print("Give computer to next player.")
