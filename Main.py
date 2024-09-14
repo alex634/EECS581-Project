@@ -45,7 +45,7 @@ def main():
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:
         print("Player 1's Turn")
         turn(p1,p2)
-        
+
         # if statements that check if either player has won
         if p1.opponentSunk == 0:
             print("Player 1 Wins!!!")
@@ -70,7 +70,7 @@ def placeShipTurn(player, numShips):
                 col = get_column()
                 row = get_row()
                 direction = "up"
-                added =player.addToFleet(length, row, col, direction)
+                added = player.addToFleet(length, row, col, direction)
                 if added == False:
                     print("Please input a valid space! Remember you can't place on top of other ships or off the map")
                 else:
@@ -79,9 +79,9 @@ def placeShipTurn(player, numShips):
                 col = get_column()
                 row = get_row()
                 direction = get_direction()
-                player.addToFleet(length, row,col,direction)
+                added = player.addToFleet(length, row,col,direction)
                 if added == False:
-                    print("Please input a valid space! Remember you can't place on top of other ships or off the map")
+                    print("Please input a valid space! Remember you can't place on top of other ships or off the map\n")
                 else:
                     break
         length -= 1
@@ -92,8 +92,8 @@ def get_column():
         col = input("Enter starting column (EX: B): ").upper()
         if col == "":
             print("Invalid column. Please enter a letter between A and J.")
-        elif col in "ABCDEFGHIJ":  
-            return ord(col) - ord('A')  
+        elif col in "ABCDEFGHIJ":
+            return ord(col) - ord('A')
         else:
             print("Invalid column. Please enter a letter between A and J.")
 
@@ -123,8 +123,9 @@ def turn(player, opponent):
 
         opponent_res = opponent.updatePlayer(row, col, opponent)
         player_res = player.updateOpponent(row, col, opponent)
-        if player_res == 0 or opponent_res == 0:
-            print("You've already targeted this spot. Try again.")
+        if opponent_res == 0:
+            input("You've already targeted this spot. hit ENTER to try again.")
+            os.system('cls' if os.name == 'nt' else 'clear')
         else:
             break
 
