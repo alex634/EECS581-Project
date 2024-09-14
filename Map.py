@@ -4,24 +4,24 @@ Date: 09/08/2024
 Last modified: 09/14/2024
 Purpose: Class for a map
 '''
-from Ship import Ships
+from Ship import Ships  #imports the ships file
 
-class Map:
-    def __init__(self):
-        self.map = [[" " for i in range(10)] for j in range(10)]
-        self.ships = []
-        self.rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        self.col = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+class Map:              #map class
+    def __init__(self): 
+        self.map = [[" " for i in range(10)] for j in range(10)]  
+        self.ships = [] #empty list for the ships
+        self.rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] #rows list with the given number position from 1-10
+        self.col = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] #columns list with the given letter position from A-J
 
 
-    def placeShip(self, length, row, col, direction):
-        direction = direction.lower()
-        if direction not in ['left', 'right', 'up', 'down']:
+    def placeShip(self, length, row, col, direction): #function to place the ships 
+        direction = direction.lower()  #makes the direction name into lowercase when they put in left, right, up or down
+        if direction not in ['left', 'right', 'up', 'down']: #if the user doesn't put any of these directions
+            return False #returns it to false
+
+        if row < 0 or row >= len(self.map) or col < 0 or col >= len(self.map[0]): #if the row and column is less than 0 or greater 
             return False
-
-        if row < 0 or row >= len(self.map) or col < 0 or col >= len(self.map[0]):
-            return False
-        if direction == 'right':
+        if direction == 'right': #if the user puts in the direction of right
             end = col + length
             if end > len(self.map[0]):
                 return False
