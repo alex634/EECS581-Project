@@ -21,11 +21,12 @@ class Player:
     def displayEmpty(self):                                 #function to display the empty map once it's the player's turn 
         self.playerMap.display()                            #display player's map  
    
-    def addToFleet(self,length,row,col, direction):          #function to add the ships to the fleet 
-        self.playerMap.placeShip(length,row,col,direction)  #places the ships to the player map with the length of ship, row, column and direction
-        self.opponentSunk += 1                              #counter for when the opponent's ship is sunk
-        self.fleetNum += 1                                  #counts the fleet after adding the ship
-        self.playerMap.display()                            #displays the player map of ship after adding to the fleet
+    def addToFleet(self,length,row,col, direction):                 #function to add the ships to the fleet 
+        added = self.playerMap.placeShip(length,row,col,direction)  #places the ships to the player map with the length of ship, row, column and direction
+        self.opponentSunk += 1                                      #counter for when the opponent's ship is sunk
+        self.fleetNum += 1                                          #counts the fleet after adding the ship
+        self.playerMap.display()                                    #displays the player map of ship after adding to the fleet
+        return added                                                #Returns to check if they tried to hit same spot twice
 
     def updateOpponent(self,row,col,opponent):                       #updates the map of the opponent
         result = self.opponentMap.updateOpponentMap(row,col,opponent)#result variable that will update the opponent's row and column
@@ -34,6 +35,6 @@ class Player:
             self.opponentSunk -= 1                          #decreases the opponent's sunk counter
         return result                                       #returns the result of the updated map
     
-    def updatePlayer(self,row,col,opponent):                         #function to update the player's board 
-        self.playerMap.updatePlayerMap(row,col,opponent)             #calls the player's map and updates the row and column
+    def updatePlayer(self,row,col,opponent):                                #function to update the player's board 
+        return self.playerMap.updatePlayerMap(row,col,opponent)             #calls the player's map and updates the row and column
     
