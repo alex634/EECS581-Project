@@ -2,7 +2,7 @@
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
 Last modified: 09/13/2024
-Purpose: 
+Purpose: Class for the ships
 '''
 class Ships:
     def __init__(self,length):          # creates the objects for the ships with the length
