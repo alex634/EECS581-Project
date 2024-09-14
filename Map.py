@@ -87,7 +87,7 @@ class Map:
         return 1
 
     def updateOpponentMap(self, row, col, opponent):
-        if self.map[row][col] =="X" or if isinstance(self.map[row][col], int):
+        if self.map[row][col] =="X" or isinstance(self.map[row][col], int):
             return 0
         if opponent.playerMap.map[row][col] == "X":
             self.map[row][col] = "X"
