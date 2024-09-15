@@ -1,7 +1,7 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
-Last modified: 09/14/2024
+Last modified: 09/15/2024
 Purpose: 
 '''
 from Map import Map
@@ -23,9 +23,10 @@ class Player:
    
     def addToFleet(self,length,row,col, direction):                 #function to add the ships to the fleet 
         added = self.playerMap.placeShip(length,row,col,direction)  #places the ships to the player map with the length of ship, row, column and direction
-        self.opponentSunk += 1                                      #counter for when the opponent's ship is sunk
-        self.fleetNum += 1                                          #counts the fleet after adding the ship
-        self.playerMap.display()                                    #displays the player map of ship after adding to the fleet
+        if added:
+            self.opponentSunk += 1                                      #counter for when the opponent's ship is sunk
+            self.fleetNum += 1                                          #counts the fleet after adding the ship
+            self.playerMap.display()                                    #displays the player map of ship after adding to the fleet
         return added                                                #Returns to check if they tried to hit same spot twice
 
     def updateOpponent(self,row,col,opponent):                       #updates the map of the opponent
