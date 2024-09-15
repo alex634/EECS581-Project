@@ -78,7 +78,7 @@ def placeShipTurn(player, numShips):
                 col = get_column()                                  #gets the column 
                 row = get_row()                                     #gets the row 
                 direction = get_direction()                         #gets the direction for where the place the ship
-                player.addToFleet(length, row,col,direction)        #adds ship to fleet
+                added = player.addToFleet(length, row,col,direction)        #adds ship to fleet
                 if added == False:                                  #if it was not successful
                     print("Please input a valid space! Remember you can't place on top of other ships or off the map")
                 else:
