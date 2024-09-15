@@ -1,7 +1,7 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
 Date: 09/08/2024
-Last modified: 09/14/2024
+Last modified: 09/15/2024
 Purpose: Main file
 '''
 import os                                                          #imports the os to interact with the os system
