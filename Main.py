@@ -1,6 +1,6 @@
 '''
-Authors: Alexandra, Sophia, Eli, Jose, Riley
-Editors: Timo
+Authors: Alexandra, Sophia, Eli, Jose, and Riley
+Editor: Harry and Timo
 Date: 09/08/2024
 Last modified: 09/27/2024
 Purpose: Main file
@@ -8,6 +8,8 @@ Purpose: Main file
 import os                                                          #imports the os to interact with the os system
 from Player import Player                                          #imports the player file
 from Sound import Sound
+import ShipGen
+import time
 
 #printing a welcoming message before starting the game
 def main():                                                             
@@ -34,17 +36,39 @@ def main():
         else:                                                       #if they don't put a number from 1-5 it's invalid
             print("Invalid Input")
             Sound.play_Error()
+    
+    while True:
+        ai = input("Play with AI? [Y/n]: ")
+        if ai == "Y" or ai == "y":
+            ai = 1
+            break
+        elif ai == "N" or ai == "n":
+            ai = 0
+            break
+        else:
+            print("Invalid Input")
 
-                                                                    # both players will take turns to place their ships
-    print("\nPlayer 1, it's time to place your ships.")
-    Sound.play_Turn()
-    placeShipTurn(p1, numShips)                                     #places the ships in the placeShipTurn function for player 1
-    clear()                                                         #clear terminal screen
-    print("\nPlayer 2, it's time to place your ships.") 
-    Sound.play_Turn()
-    placeShipTurn(p2, numShips)                                     #places the ships in the placeShipTurn function for player 1
-    clear()                                                         #clear terminal green
-
+    if ai == 0:
+                                                                    # both players will take turns to place their ships                                                              
+        print("\nPlayer 1, it's time to place your ships.")
+        Sound.play_Turn()
+        placeShipTurn(p1, numShips)                                     #places the ships in the placeShipTurn function for player 1
+        clear()                                                         #clear terminal screen
+        print("\nPlayer 2, it's time to place your ships.") 
+        Sound.play_Turn()
+        placeShipTurn(p2, numShips)                                     #places the ships in the placeShipTurn function for player 1
+        clear()                                                         #clear terminal green
+    else:
+        print("\nPlayer 1, it's time to place your ships.")
+        Sound.play_Turn()
+        placeShipTurn(p1, numShips)
+        clear(ai = 1)
+        print("\nPlayer AI, is placing their ships...")
+        Sound.play_Turn()
+        placeAIShipTurn(p2, numShips)
+        #clear()
+        
+    
                                                                     # main game loop
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:               #while player 1 and 2 have ships
         print("Player 1's Turn") 
@@ -65,6 +89,24 @@ def main():
             Sound.play_Win()
             exit()                                                  #exits the game
         clear()                                                     #clears the terminal
+
+def placeAIShipTurn(player, numShips):
+    ship_coord = ShipGen.gen_ship(numShips)
+    length = numShips
+    index = 0
+    while length > 0:
+        col = ord(ship_coord[index][0]) - ord("A")
+        row = int(ship_coord[index][1])
+
+        if ship_coord[index][2] == 0:
+            direction = "right"
+        elif ship_coord[index][2] == 1:
+            direction = "down"
+        
+        player.addToFleet(length, row, col, direction)
+        os.system('cls' if os.name == 'nt' else 'clear')
+        index += 1
+        length -= 1
 
 
 # function that handles placing ships on the board
@@ -147,12 +189,22 @@ def turn(player, opponent):
 
 
 # function that clears the terminal and prompt the next turn
-def clear():
+def clear(ai = 0):
     input("Press ENTER to continue to the next player's turn.")     #tells the user to press enter
     os.system('cls' if os.name == 'nt' else 'clear')                #clear the screen
 
-    print("Give computer to next player.")                          #tells the user to hand over the screen to next player
-    input("Next player hit ENTER key.")                             #tells the next user to start
+    if ai:
+        print("The AI is placing their ships >:3")
+        print("Thinking", end = "")
+        print(".", end = "", flush=True)
+        time.sleep(1)
+        print(".", end = "", flush=True)
+        time.sleep(1)
+        print(".", flush=True)
+        input("I'm ready, hit the ENTER key to play >:3")
+    else:
+        print("Give computer to next player.")                          #tells the user to hand over the screen to next player
+        input("Next player hit ENTER key.")                             #tells the next user to start
 
     os.system('cls' if os.name == 'nt' else 'clear')                #clear the screen
 
