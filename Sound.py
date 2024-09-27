@@ -1,3 +1,10 @@
+'''
+Authors: Timo
+Date: 09/27/2024
+Last modified: 09/27/2024
+Purpose: Sound Effects
+'''
+
 from playsound import playsound
 
 class Sound:
