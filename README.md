@@ -16,7 +16,7 @@ The following are programs and libraries that need to be installed before using 
 - playsound
 
 ## How to play
-To play, clone this repository: <https://github.com/JoseLeyba/EECS581-Project>, install all of the prerequisites listed above, and run `python3 main.py` with the current directory being the location of main.py.
+To play, clone this repository: [https://github.com/JoseLeyba/EECS581-Project](https://github.com/alex634/EECS581-Project), install all of the prerequisites listed above, and run `python3 main.py` with the current directory being the location of main.py.
 
 ## License
 This project is open-source and available for modification or enhancement. You can redistribute it and/or modify it under the terms of your choice. 
