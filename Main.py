@@ -1,12 +1,13 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
-Editor: Harry
+Editor: Harry and Timo
 Date: 09/08/2024
-Last modified: 09/15/2024
+Last modified: 09/27/2024
 Purpose: Main file
 '''
 import os                                                          #imports the os to interact with the os system
 from Player import Player                                          #imports the player file
+from Sound import Sound
 import ShipGen
 import time
 
@@ -34,7 +35,8 @@ def main():
                 break                                               #ends the loop
         else:                                                       #if they don't put a number from 1-5 it's invalid
             print("Invalid Input")
-
+            Sound.play_Error()
+    
     while True:
         ai = input("Play with AI? [Y/n]: ")
         if ai == "Y" or ai == "y":
@@ -49,16 +51,20 @@ def main():
     if ai == 0:
                                                                     # both players will take turns to place their ships                                                              
         print("\nPlayer 1, it's time to place your ships.")
+        Sound.play_Turn()
         placeShipTurn(p1, numShips)                                     #places the ships in the placeShipTurn function for player 1
         clear()                                                         #clear terminal screen
         print("\nPlayer 2, it's time to place your ships.") 
+        Sound.play_Turn()
         placeShipTurn(p2, numShips)                                     #places the ships in the placeShipTurn function for player 1
         clear()                                                         #clear terminal green
     else:
         print("\nPlayer 1, it's time to place your ships.")
+        Sound.play_Turn()
         placeShipTurn(p1, numShips)
         clear(ai = 1)
         print("\nPlayer AI, is placing their ships...")
+        Sound.play_Turn()
         placeAIShipTurn(p2, numShips)
         #clear()
         
@@ -66,17 +72,21 @@ def main():
                                                                     # main game loop
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:               #while player 1 and 2 have ships
         print("Player 1's Turn") 
+        Sound.play_Turn()
         turn(p1,p2)                                                 #calls the turn function for player 1
         
                                                                     # if statements that check if either player has won
         if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
             print("Player 1 Wins!!!")
+            Sound.play_Win()
             exit()                                                  #exits the game
         clear()                                                     #clears the terminal
         print("Player 2's Turn")
+        Sound.play_Turn()
         turn(p2,p1)
         if p2.opponentSunk == 0:                                    #if player 2's opponent has zero ships
             print("Player 2 Wins!!!")
+            Sound.play_Win()
             exit()                                                  #exits the game
         clear()                                                     #clears the terminal
 
@@ -113,6 +123,7 @@ def placeShipTurn(player, numShips):
                 added =player.addToFleet(length, row, col, direction) #adds the ship to fleat
                 if added == False:                                  #if it was not successful
                     print("Please input a valid space! Remember you can't place on top of other ships or off the map")
+                    Sound.play_Error()
                 else:
                     break                                           #exits if successful
             else:                                                   #if ship is greater than the 1x1 ship
@@ -122,6 +133,7 @@ def placeShipTurn(player, numShips):
                 added = player.addToFleet(length, row,col,direction)        #adds ship to fleet
                 if added == False:                                  #if it was not successful
                     print("Please input a valid space! Remember you can't place on top of other ships or off the map")
+                    Sound.play_Error()
                 else:
                     break
         length -= 1                                                 #decreases the length of ship for the next ship
@@ -132,10 +144,12 @@ def get_column():
         col = input("Enter starting column (EX: B): ").upper()      #user enters column and makes it uppercase
         if col == "": #if the inout is empty
             print("Invalid column. Please enter a letter between A and J.") #invalid message
+            Sound.play_Error()
         elif col in "ABCDEFGHIJ":                                   #if the input is one of these letters
             return ord(col) - ord('A')                              #returns it to an index from 0-9
         else:                                                       #if they put a different letter other than from A-J
             print("Invalid column. Please enter a letter between A and J.") 
+            Sound.play_Error()
 
 # function that gets the row coordinates
 def get_row():
@@ -145,6 +159,7 @@ def get_row():
             return int(row) - 1                                     #makes the row to an index from 0-9
         else:                                                       #if they put a different number or not
             print("Invalid row. Please enter a number between 1 and 10.")
+            Sound.play_Error()
 
 # function that gets the direction for the ship
 def get_direction():
@@ -154,6 +169,7 @@ def get_direction():
             return direction                                                                        #returns the direction from what the user put in 
         else:                                                                                       #invalid message
             print("Invalid direction. Please enter 'left', 'right', 'up', or 'down'.")
+            Sound.play_Error()
 # function that handles a player's turn
 def turn(player, opponent):
     while True:
@@ -165,6 +181,7 @@ def turn(player, opponent):
         player_res = player.updateOpponent(row, col, opponent)      #updates the opponent from the game
         if player_res == 0 or opponent_res == 0:                    #checks if the spot has been targeted
             print("You've already targeted this spot. Try again.")
+            Sound.play_Error()
         else:
             break                                                   #breaks the loop 
 
