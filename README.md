@@ -1,12 +1,22 @@
-This PROJECT is a simple two-player Battleship game built using Python, it was done to be executed/played in the console. Each player will take turns placing ships on a their maps and then try to guess the location of the opponent's ships. The first player to sink all of the opponent's ships wins!
+# Battleship
 
-Prerequisites
-Before running this project, ensure you have Python installed (version 3.10 or later) and the following the tabulate library installed
-To install tabulate, run the following command: pip install tabulate 
+## Description
 
-How to play
-To play the game please download the repository by running the command git clone <https://github.com/JoseLeyba/EECS581-Project>
-and the running python main.py to start playing!\
+This is a simple two-player Battleship game built in Python. It runs in the console. Each player first places ships then takes turns trying to sink the opponent's ships by guessing their locations. The first player to sink all of the opponent's ships wins!
 
-License
+## Prerequisites
+
+The following are programs and libraries that need to be installed before using this program. The process of installing these may differ by environment. Using Anaconda to manage these are recommended.
+
+#### Software
+- Python 3.10
+
+#### Python Libraries
+- tabulate
+- playsound
+
+## How to play
+To play, clone this repository: <https://github.com/JoseLeyba/EECS581-Project>, install all of the prerequisites listed above, and run `python3 main.py` with the current directory being the location of main.py.
+
+## License
 This project is open-source and available for modification or enhancement. You can redistribute it and/or modify it under the terms of your choice. 
