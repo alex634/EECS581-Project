@@ -47,6 +47,7 @@ def main():
             break
         else:
             print("Invalid Input")
+            Sound.play_Error()
 
     if ai == 0:
                                                                     # both players will take turns to place their ships                                                              
@@ -69,26 +70,49 @@ def main():
         #clear()
         
     
-                                                                    # main game loop
+    chosen = False                                                                # main game loop
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:               #while player 1 and 2 have ships
-        print("Player 1's Turn") 
-        Sound.play_Turn()
-        turn(p1,p2)                                                 #calls the turn function for player 1
-        
-                                                                    # if statements that check if either player has won
-        if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
-            print("Player 1 Wins!!!")
-            Sound.play_Win()
-            exit()                                                  #exits the game
-        clear()                                                     #clears the terminal
-        print("Player 2's Turn")
-        Sound.play_Turn()
-        turn(p2,p1)
-        if p2.opponentSunk == 0:                                    #if player 2's opponent has zero ships
-            print("Player 2 Wins!!!")
-            Sound.play_Win()
-            exit()                                                  #exits the game
-        clear()                                                     #clears the terminal
+        if ai == 0:
+            print("Player 1's Turn") 
+            Sound.play_Turn()
+            turn(p1,p2)                                                 #calls the turn function for player 1
+            
+                                                                        # if statements that check if either player has won
+            if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
+                print("Player 1 Wins!!!")
+                Sound.play_Win()
+                exit()                                                  #exits the game
+            clear()                                                     #clears the terminal
+            print("Player 2's Turn")
+            Sound.play_Turn()
+            turn(p2,p1)
+            if p2.opponentSunk == 0:                                    #if player 2's opponent has zero ships
+                print("Player 2 Wins!!!")
+                Sound.play_Win()
+                exit()                                                  #exits the game
+            clear()                                                     #clears the terminal
+        else:
+            while (chosen == False):
+                mode = input("Which dificultyl level? [E (easy), M (Medium, or H (Hard)/n]: ")
+                if mode == "E" or mode == "e":
+                    mode = 0
+                    print("Game mode set to Easy")
+                    chosen = True
+                    break
+                elif mode == "M" or mode == "m":
+                    mode = 1
+                    print("Game mode set to Medium")
+                    chosen = True
+                    break
+                elif mode == "H" or mode == "h":
+                    mode = 2
+                    print("Game mode set to Hard")
+                    chosen == True
+                    break
+                else:
+                    print("Invalid Input")
+                    Sound.play_Error()
+
 
 def placeAIShipTurn(player, numShips):
     ship_coord = ShipGen.gen_ship(numShips)
