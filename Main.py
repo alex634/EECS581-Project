@@ -1,6 +1,6 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
-Editor: Harry and Timo
+Editor: Hamza, Harry, Isaac, and Timo
 Date: 09/08/2024
 Last modified: 09/27/2024
 Purpose: Main file
@@ -10,6 +10,7 @@ from Player import Player                                          #imports the 
 from Sound import Sound
 import ShipGen
 import time
+import random
 
 #printing a welcoming message before starting the game
 def main():                                                             
@@ -94,25 +95,59 @@ def main():
         else:
             while (chosen == False):
                 mode = input("Which dificultyl level? [E (easy), M (Medium, or H (Hard)/n]: ")
-                if mode == "E" or mode == "e":
+                if mode == "E" or mode == "e":  # Player one chooses easy.
                     mode = 0
                     print("Game mode set to Easy")
                     chosen = True
                     break
-                elif mode == "M" or mode == "m":
+                elif mode == "M" or mode == "m": # Player one chooses meduim.
                     mode = 1
                     print("Game mode set to Medium")
                     chosen = True
                     break
-                elif mode == "H" or mode == "h":
+                elif mode == "H" or mode == "h": # Player one chooses hard.
                     mode = 2
-                    print("Game mode set to Hard")
+                    print("Game mode set to Hard") 
                     chosen == True
                     break
-                else:
+                else: # Player one chooses bad input.
                     print("Invalid Input")
                     Sound.play_Error()
 
+
+            print("Player 1's Turn") 
+            Sound.play_Turn()
+            turn(p1,p2)                                                 #calls the turn function for player 1
+
+                                                                        # if statements that check if either player has won
+            if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
+                print("Player 1 Wins!!!")
+                Sound.play_Win()
+                exit()                                                  #exits the game
+            clear()     
+            if mode == 0:  # Easy mode
+                print("AI (Easy) Turn")
+                Sound.play_Turn()
+                easyAITurn(p2, p1)  # AI fires randomly at Player 1
+                if p2.opponentSunk == 0:  # Check if AI has won
+                    print("AI Wins!!!")
+                    Sound.play_Win()
+                    exit()
+                clear()
+
+
+def easyAITurn(player, opponent):
+    while True:
+        row = random.randint(0, 9)  # Generate a random row between 0 and 9
+        col = random.randint(0, 9)  # Generate a random column between 0 and 9
+
+        opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+        player_res = player.updateOpponent(row, col, opponent)  # Update AI's view of the opponent's board
+
+        if player_res == 0 or opponent_res == 0:  # If already targeted, retry
+            continue
+        else:
+            break  # Exit the loop when a valid shot is fired
 
 def placeAIShipTurn(player, numShips):
     ship_coord = ShipGen.gen_ship(numShips)
