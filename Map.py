@@ -1,7 +1,8 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
+Editors: Timo
 Date: 09/08/2024
-Last modified: 09/15/2024
+Last modified: 09/27/2024
 Purpose: Class for a map
 '''
 from Ship import Ships          #imports the ships file
