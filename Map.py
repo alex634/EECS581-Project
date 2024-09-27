@@ -6,6 +6,7 @@ Purpose: Class for a map
 '''
 from Ship import Ships          #imports the ships file
 from tabulate import tabulate   #imports tabulate to format the tables
+from Sound import Sound
 
 #map class
 class Map:              
@@ -94,11 +95,13 @@ class Map:
         if opponent.playerMap.map[row][col] == "X":                                 #if player hits the opponent's ship
             self.map[row][col] = "X"                                                #marks with an x
             print("><><><>< SHIP HAS BEEN HIT!!! ><><><><")                         #prints the message
+            Sound.play_Hit()
 
             for ship in opponent.playerMap.ships:                                   #goes through a loop in the opponent's ship
                 if [row, col] in ship.locations:                                    #if there's a hit in the ship's park
                     if ship.sunk:                                                   #if ship is fully hit
                         print("YOU HAVE SUNK A SHIP!")                              #prints the message
+                        Sound.play_Sunk()
                         for [srow, scol] in ship.locations:                         #goes through the ships location
                             self.map[srow][scol] = ship.length                      #marks the ship's location
                         return 2                                                    #returns 2 that the ship is sunk
@@ -106,6 +109,7 @@ class Map:
         else:                                                                       #if the player misses the opponent's ship
             self.map[row][col] = 'O'                                                #marks it as a 0
             print("SHOT HAS MISSED!!! :(")                                          #prints the message
+            Sound.play_Missed()
             return 1                                                                #returns 1 for miss
 
 
