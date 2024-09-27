@@ -5,7 +5,23 @@ Last modified: 09/27/2024
 Purpose: Sound Effects
 '''
 
-from playsound import playsound
+import pygame.mixer
+import threading
+import time
+
+pygame.mixer.init()
+
+def playsound(sound_file):
+    def play():
+        sound = pygame.mixer.Sound(sound_file)
+        sound.play()
+
+        while pygame.mixer.get_busy():
+            time.sleep(0.5)
+
+    sound_thread = threading.Thread(target=play)
+    sound_thread.start()
+        
 
 class Sound:
     @staticmethod
