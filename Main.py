@@ -1,5 +1,6 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
+Editor: Harry
 Date: 09/08/2024
 Last modified: 09/15/2024
 Purpose: Main file
