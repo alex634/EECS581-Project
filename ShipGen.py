@@ -40,7 +40,7 @@ def place_ships(placed_ships, value, ship_size, rotate):
 def gen_ship(num_ship):
     # save the valid ship head coords and rotation as a tuple
     ship_coord = []
-    placed_ships = []
+    placed_ships = [-1]
     while num_ship > 0:
         # check if the ship does not collide with one another
         valid_ship = True
@@ -50,11 +50,18 @@ def gen_ship(num_ship):
             # but we can check if the rotations are valid
             # if the rotations are valid then add it to the list
 
-            # generate a ship from 0 to 99 but of the ship size is 5 it decrease
-            # by 40 so that the tail of the ship does not hit the game boarder
-            ship_index = random.randint(0, (100 - ( 10 * (num_ship - 1))) - 1)
             # generate a random rotation
             rotate = random.randint(0, 1)
+
+            if rotate:
+            # generate a ship from 0 to 99 but of the ship size is 5 it decrease
+            # by 40 so that the tail of the ship does not hit the game boarder
+                ship_index = random.randint(0, (100 - ( 10 * (num_ship - 1))) - 1)
+            else:
+                ship_index = random.randint(0, 99)
+                if ship_index%10 in [9,8,7,6,5]:
+                    ship_index = -1
+            
             # adds the ship index to be marked at taken
             place_ships(temp_placed_ships, ship_index, num_ship, rotate)
             # check to see of the ship's index has been taken
