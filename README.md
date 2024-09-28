@@ -13,7 +13,7 @@ The following are programs and libraries that need to be installed before using 
 
 #### Python Libraries
 - tabulate
-- playsound
+- pygame
 
 ## How to play
 To play, clone this repository: [https://github.com/alex634/EECS581-Project](https://github.com/alex634/EECS581-Project), install all of the prerequisites listed above, and run `python3 main.py` with the current directory being the location of main.py.
