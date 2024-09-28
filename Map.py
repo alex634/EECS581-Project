@@ -1,6 +1,6 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
-Editors: Timo
+Editors: Timo and Isaac
 Date: 09/08/2024
 Last modified: 09/27/2024
 Purpose: Class for a map
@@ -121,3 +121,15 @@ class Map:
             table_data.append([self.rows[i]] + row)                                 #adds each row with its row number
         table = tabulate(table_data, headers=header, tablefmt="grid")               #creates the formatted table
         print(table)                                                                #prints the table
+
+    def get_opponent_ship_coordinates(self):
+        # Collect all the ship locations
+        ship_locations = []
+        for ship in self.ships:
+            for location in ship.locations:
+                ship_locations.append(location)
+        return ship_locations
+
+    def is_hit(self, row, col):
+        # Checks if a coordinate has already been hit (either marked 'X' for hit or 'O' for miss)
+        return self.map[row][col] == 'X' or self.map[row][col] == 'O'
