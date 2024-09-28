@@ -161,76 +161,97 @@ def main():
                 clear()
 
 
-def easyAITurn(player, opponent):
+def easyAITurn(player, opponent, coordinate_history):
     while True:
-        row = random.randint(0, 9)  # Generate a random row between 0 and 9
-        col = random.randint(0, 9)  # Generate a random column between 0 and 9
+        row = random.randint(0, 9)
+        col = random.randint(0, 9)
 
-        opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
-        player_res = player.updateOpponent(row, col, opponent)  # Update AI's view of the opponent's board
+        # Avoid picking the same coordinates
+        if (row, col) in coordinate_history:
+            continue  # Skip if already chosen
 
-        if player_res == 0 or opponent_res == 0:  # If already targeted, retry
-            continue
+        opponent_res = opponent.updatePlayer(row, col, opponent)
+        player_res = player.updateOpponent(row, col, opponent)
+
+        if player_res == 0 or opponent_res == 0:
+            continue  # Retry if the spot was already targeted
         else:
-            break  # Exit the loop when a valid shot is fired
+            coordinate_history.append((row, col))  # Record the chosen coordinate
+            break
+
 
 def mediumAITurn(player, opponent, coordinate_history):
-    
-    if coordinate_history: # if coordinate history has corrdinates then check them.
-        
-        row, col = coordinate_history[0] # Retrieve the first coordinate from the list.
+    # A set to track already fired coordinates, prevents firing on the same position again
+    fired_coordinates = set()
 
-        while coordinate_history: # While the list is not empty.
-            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board.
-            player_res = player.updateOpponent(row, col, opponent)  # Update AI's view of the opponent's board.
+    if coordinate_history:  # If there is already a history of coordinates to check
+        row, col = coordinate_history[0]  # Get the first coordinate from the list
 
-            if player_res == 0 or opponent_res == 0:  # If already targeted, retry.
-                coordinate_history.pop(0)  # Remove the invalid coordinate.
-                if coordinate_history:  # Check if there are still coordinates left.
-                    row, col = coordinate_history[0]  # Get the next coordinate.
+        while coordinate_history:  # Loop through until the history is empty or a valid shot is fired
+            if (row, col) in fired_coordinates:  # Skip if already fired at this position
+                coordinate_history.pop(0)
+                if coordinate_history:
+                    row, col = coordinate_history[0]  # Get the next coordinate
                 else:
-                    break  # Exit if no coordinates are left.
+                    break
+                continue
+
+            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+            player_res = player.updateOpponent(row, col, opponent)    # Update AI's view of the opponent's board
+
+            fired_coordinates.add((row, col))  # Track this coordinate as fired
+
+            if player_res == 0 or opponent_res == 0:  # If the spot has already been targeted
+                coordinate_history.pop(0)  # Remove the invalid coordinate
+                if coordinate_history:
+                    row, col = coordinate_history[0]  # Get the next coordinate
+                else:
+                    break
             else:
-                if opponent_res == 3: # Add surrounding coordinates if they are around a marked hit and the valid range.
-                
-                    potential_targets = [ # All potential coordinates.
-                        (row - 1, col),  # Up.
-                        (row, col + 1),  # Right.
-                        (row + 1, col),  # Down.
-                        (row, col - 1),  # Left.
+                if opponent_res == 3:  # Add surrounding coordinates if the hit is successful
+                    potential_targets = [
+                        (row - 1, col),  # Up
+                        (row, col + 1),  # Right
+                        (row + 1, col),  # Down
+                        (row, col - 1)   # Left
                     ]
 
-                    for target in potential_targets:
-                        if 0 <= target[0] < 10 and 0 <= target[1] < 10: # Check if the target is within the bounds of the board (0-9).
-                            coordinate_history.insert(0, target)  # Add to the beginning of the list
+                    for target_row, target_col in potential_targets:
+                        if 0 <= target_row < 10 and 0 <= target_col < 10 and (target_row, target_col) not in fired_coordinates:
+                            coordinate_history.insert(0, (target_row, target_col))  # Add valid target coordinates to the list
 
-                break  # Exit the loop when a valid shot is fired.
+                break  # Exit the loop when a valid shot is fired
 
-    else:
+    else:  # If no history, fire randomly
         while True:
-            row = random.randint(0, 9)  # Generate a random row between 0 and 9.
-            col = random.randint(0, 9)  # Generate a random column between 0 and 9.
+            row = random.randint(0, 9)  # Randomly choose a row
+            col = random.randint(0, 9)  # Randomly choose a column
 
-            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board.
-            player_res = player.updateOpponent(row, col, opponent)  # Update AI's view of the opponent's board.
+            if (row, col) in fired_coordinates:  # If this coordinate has already been fired at, skip
+                continue
 
-            if player_res == 0 or opponent_res == 0:  # If already targeted, retry.
+            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+            player_res = player.updateOpponent(row, col, opponent)    # Update AI's view of the opponent's board
+
+            fired_coordinates.add((row, col))  # Track this coordinate as fired
+
+            if player_res == 0 or opponent_res == 0:  # If the shot was invalid (already hit or missed)
                 continue
             else:
-                if opponent_res == 3: # Add surrounding coordinates if they are around a marked hit and the valid range.
-                
-                    potential_targets = [ # All potential coordinates.
-                        (row - 1, col),  # Up.
-                        (row, col + 1),  # Right.
-                        (row + 1, col),  # Down.
-                        (row, col - 1),  # Left.
+                if opponent_res == 3:  # If a ship is hit but not sunk
+                    potential_targets = [
+                        (row - 1, col),  # Up
+                        (row, col + 1),  # Right
+                        (row + 1, col),  # Down
+                        (row, col - 1)   # Left
                     ]
 
-                    for target in potential_targets:
-                        if 0 <= target[0] < 10 and 0 <= target[1] < 10: # Check if the target is within the bounds of the board (0-9).
-                            coordinate_history.insert(0, target)  # Add to the beginning of the list
+                    for target_row, target_col in potential_targets:
+                        if 0 <= target_row < 10 and 0 <= target_col < 10 and (target_row, target_col) not in fired_coordinates:
+                            coordinate_history.insert(0, (target_row, target_col))  # Add valid target coordinates to the list
 
-                break  # Exit the loop when a valid shot is fired.
+                break  # Exit the loop when a valid shot is fired
+
 
 def hardAITurn(player, opponent):
     # Retrieve coordinates of opponent's ships
@@ -250,22 +271,24 @@ def hardAITurn(player, opponent):
         print("No available hits found!")  # This shouldn't happen in hard mode
 
 def placeAIShipTurn(player, numShips):
-    ship_coord = ShipGen.gen_ship(numShips)
-    length = numShips
+    ship_coord = ShipGen.gen_ship(numShips)  # Generate ship coordinates
     index = 0
-    while length > 0:
+    while numShips > 0:
+        length = numShips  # Ship length
         col = ord(ship_coord[index][0]) - ord("A")
         row = int(ship_coord[index][1])
 
-        if ship_coord[index][2] == 0:
-            direction = "right"
-        elif ship_coord[index][2] == 1:
-            direction = "down"
-        
-        player.addToFleet(length, row, col, direction)
+        # Boundary check
+        if ship_coord[index][2] == 0 and col + length > 10:  # Right boundary
+            continue  # Skip invalid placement
+        if ship_coord[index][2] == 1 and row + length > 10:  # Down boundary
+            continue  # Skip invalid placement
+
+        direction = "right" if ship_coord[index][2] == 0 else "down"
+        player.addToFleet(length, row, col, direction)  # Place the ship
         os.system('cls' if os.name == 'nt' else 'clear')
         index += 1
-        length -= 1
+        numShips -= 1  # Move to the next ship
 
 
 # function that handles placing ships on the board
@@ -332,17 +355,23 @@ def get_direction():
 # function that handles a player's turn
 def turn(player, opponent):
     while True:
-        player.displayMaps()    #display player's map
-        col = get_column()      #gets the column from the get_column function during the game
-        row = get_row()         #gets the row from the get_row function during the game
+        player.displayMaps()  # Display both player's and opponent's boards
+        col = get_column()  # Get column input
+        row = get_row()  # Get row input
 
-        opponent_res = opponent.updatePlayer(row, col, opponent)    #updates the player from the game
-        player_res = player.updateOpponent(row, col, opponent)      #updates the opponent from the game
-        if player_res == 0 or opponent_res == 0:                    #checks if the spot has been targeted
+        # Check if the spot has already been targeted
+        if opponent.playerMap.map[row][col] in ['X', 'O']:
+            print("You've already targeted this spot. Try again.")
+            Sound.play_Error()
+            continue  # Retry valid coordinate input
+
+        opponent_res = opponent.updatePlayer(row, col, opponent)  # Update opponent's board
+        player_res = player.updateOpponent(row, col, opponent)  # Update player's view of opponent's board
+        if player_res == 0 or opponent_res == 0:  # Check if spot has already been targeted
             print("You've already targeted this spot. Try again.")
             Sound.play_Error()
         else:
-            break                                                   #breaks the loop 
+            break  # Exit loop and continue the game
 
 
 
