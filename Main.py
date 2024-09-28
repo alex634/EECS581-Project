@@ -24,7 +24,7 @@ def main():
 
     p1 = Player()                                                   #player 1 created
     p2 = Player()                                                   #player 2 created
-
+    coordinate_history = [] # Coordiinates that have been marked as hots stored for mediumAITurns to check.
 
     numShips = 0                                                    #number ships set to 0 
     while True:                                                     # loop asks how many ships there will be in play
@@ -137,6 +137,18 @@ def main():
                     exit()
                 clear()
             
+            if mode == 1:  # Medium mode
+                print("AI (Medium) Turn")
+                Sound.play_Turn()
+
+                mediumAITurn(p2, p1, coordinate_history)  # AI fires with medium difficulty strategy
+                if p2.opponentSunk == 0:  # Check if AI has won
+                    print("AI Wins!!!")
+                    Sound.play_Win()
+                    exit()
+                
+                clear()
+
             # AI (Hard) Turn
             if mode == 2:  # Hard mode
                 print("AI (Hard) Turn")
@@ -161,6 +173,64 @@ def easyAITurn(player, opponent):
             continue
         else:
             break  # Exit the loop when a valid shot is fired
+
+def mediumAITurn(player, opponent, coordinate_history):
+    
+    if coordinate_history: # if coordinate history has corrdinates then check them.
+        
+        row, col = coordinate_history[0] # Retrieve the first coordinate from the list.
+
+        while coordinate_history: # While the list is not empty.
+            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board.
+            player_res = player.updateOpponent(row, col, opponent)  # Update AI's view of the opponent's board.
+
+            if player_res == 0 or opponent_res == 0:  # If already targeted, retry.
+                coordinate_history.pop(0)  # Remove the invalid coordinate.
+                if coordinate_history:  # Check if there are still coordinates left.
+                    row, col = coordinate_history[0]  # Get the next coordinate.
+                else:
+                    break  # Exit if no coordinates are left.
+            else:
+                if opponent_res == 3: # Add surrounding coordinates if they are around a marked hit and the valid range.
+                
+                    potential_targets = [ # All potential coordinates.
+                        (row - 1, col),  # Up.
+                        (row, col + 1),  # Right.
+                        (row + 1, col),  # Down.
+                        (row, col - 1),  # Left.
+                    ]
+
+                    for target in potential_targets:
+                        if 0 <= target[0] < 10 and 0 <= target[1] < 10: # Check if the target is within the bounds of the board (0-9).
+                            coordinate_history.insert(0, target)  # Add to the beginning of the list
+
+                break  # Exit the loop when a valid shot is fired.
+
+    else:
+        while True:
+            row = random.randint(0, 9)  # Generate a random row between 0 and 9.
+            col = random.randint(0, 9)  # Generate a random column between 0 and 9.
+
+            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board.
+            player_res = player.updateOpponent(row, col, opponent)  # Update AI's view of the opponent's board.
+
+            if player_res == 0 or opponent_res == 0:  # If already targeted, retry.
+                continue
+            else:
+                if opponent_res == 3: # Add surrounding coordinates if they are around a marked hit and the valid range.
+                
+                    potential_targets = [ # All potential coordinates.
+                        (row - 1, col),  # Up.
+                        (row, col + 1),  # Right.
+                        (row + 1, col),  # Down.
+                        (row, col - 1),  # Left.
+                    ]
+
+                    for target in potential_targets:
+                        if 0 <= target[0] < 10 and 0 <= target[1] < 10: # Check if the target is within the bounds of the board (0-9).
+                            coordinate_history.insert(0, target)  # Add to the beginning of the list
+
+                break  # Exit the loop when a valid shot is fired.
 
 def hardAITurn(player, opponent):
     # Retrieve coordinates of opponent's ships
