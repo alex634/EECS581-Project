@@ -161,23 +161,19 @@ def main():
                 clear()
 
 
-def easyAITurn(player, opponent, coordinate_history):
+def easyAITurn(player, opponent, coordinate_history=None):
     while True:
-        row = random.randint(0, 9)
-        col = random.randint(0, 9)
+        row = random.randint(0, 9)  # Generate a random row between 0 and 9
+        col = random.randint(0, 9)  # Generate a random column between 0 and 9
 
-        # Avoid picking the same coordinates
-        if (row, col) in coordinate_history:
-            continue  # Skip if already chosen
+        opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+        player_res = player.updateOpponent(row, col, opponent)    # Update AI's view of the opponent's board
 
-        opponent_res = opponent.updatePlayer(row, col, opponent)
-        player_res = player.updateOpponent(row, col, opponent)
-
-        if player_res == 0 or opponent_res == 0:
-            continue  # Retry if the spot was already targeted
+        if player_res == 0 or opponent_res == 0:  # If already targeted, retry
+            continue
         else:
-            coordinate_history.append((row, col))  # Record the chosen coordinate
-            break
+            break  # Exit the loop when a valid shot is fired
+
 
 
 def mediumAITurn(player, opponent, coordinate_history):
