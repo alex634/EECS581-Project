@@ -1,6 +1,6 @@
 '''
 Authors: Alexandra, Sophia, Eli, Jose, and Riley
-Editor: Harry and Timo
+Editor: Harry, Timo, Isaac, and Hamza
 Date: 09/08/2024
 Last modified: 09/27/2024
 Purpose: Main file
@@ -10,6 +10,7 @@ from Player import Player                                          #imports the 
 from Sound import Sound
 import ShipGen
 import time
+import random
 
 #printing a welcoming message before starting the game
 def main():                                                             
@@ -23,7 +24,7 @@ def main():
 
     p1 = Player()                                                   #player 1 created
     p2 = Player()                                                   #player 2 created
-
+    coordinate_history = [] # Coordiinates that have been marked as hots stored for mediumAITurns to check.
 
     numShips = 0                                                    #number ships set to 0 
     while True:                                                     # loop asks how many ships there will be in play
@@ -47,6 +48,7 @@ def main():
             break
         else:
             print("Invalid Input")
+            Sound.play_Error()
 
     if ai == 0:
                                                                     # both players will take turns to place their ships                                                              
@@ -69,44 +71,220 @@ def main():
         #clear()
         
     
-                                                                    # main game loop
+    chosen = False                                                                # main game loop
     while p1.opponentSunk > 0 or p2.opponentSunk > 0:               #while player 1 and 2 have ships
-        print("Player 1's Turn") 
-        Sound.play_Turn()
-        turn(p1,p2)                                                 #calls the turn function for player 1
+        if ai == 0: # Human vs. Human
+            # Player 1 turn
+            print("Player 1's Turn") 
+            Sound.play_Turn()
+            turn(p1,p2)                                                 #calls the turn function for player 1
+            # if statements that check if either player has won
+            if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
+                print("Player 1 Wins!!!")
+                Sound.play_Win()
+                exit()                                                  #exits the game
+            clear()                                                     #clears the terminal
+            
+            # Player 2 turn
+            print("Player 2's Turn")
+            Sound.play_Turn()
+            turn(p2,p1)
+            if p2.opponentSunk == 0:                                    #if player 2's opponent has zero ships
+                print("Player 2 Wins!!!")
+                Sound.play_Win()
+                exit()                                                  #exits the game
+            clear()                                                     #clears the terminal
+        else: # AI vs. Human
+            while (chosen == False):
+                mode = input("Which dificultyl level? [E (easy), M (Medium, or H (Hard)]: ")
+                if mode == "E" or mode == "e":  # Player one chooses easy.
+                    mode = 0
+                    print("Game mode set to Easy")
+                    chosen = True
+                    break
+                elif mode == "M" or mode == "m": # Player one chooses meduim.
+                    mode = 1
+                    print("Game mode set to Medium")
+                    chosen = True
+                    break
+                elif mode == "H" or mode == "h": # Player one chooses hard.
+                    mode = 2
+                    print("Game mode set to Hard") 
+                    chosen = True
+                    break
+                else: # Player one chooses bad input.
+                    print("Invalid Input")
+                    Sound.play_Error()
+
+            # Player 1 Turn
+            print("Player 1's Turn") 
+            Sound.play_Turn()
+            turn(p1,p2)                                                 #calls the turn function for player 1                                                       # if statements that check if either player has won
+            if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
+                print("Player 1 Wins!!!")
+                Sound.play_Win()
+                exit()                                                  #exits the game
+            clear()   
+
+            # AI (Easy) Turn
+            if mode == 0:  # Easy mode
+                print("AI (Easy) Turn")
+                Sound.play_Turn()
+                easyAITurn(p2, p1)  # AI fires randomly at Player 1
+                if p2.opponentSunk == 0:  # Check if AI has won
+                    print("AI Wins!!!")
+                    Sound.play_Win()
+                    exit()
+                clear()
+            
+            if mode == 1:  # Medium mode
+                print("AI (Medium) Turn")
+                Sound.play_Turn()
+
+                mediumAITurn(p2, p1, coordinate_history)  # AI fires with medium difficulty strategy
+                if p2.opponentSunk == 0:  # Check if AI has won
+                    print("AI Wins!!!")
+                    Sound.play_Win()
+                    exit()
+                
+                clear()
+
+            # AI (Hard) Turn
+            if mode == 2:  # Hard mode
+                print("AI (Hard) Turn")
+                Sound.play_Turn()
+                hardAITurn(p2, p1)  # AI fires at Player 1's ships
+                if p2.opponentSunk == 0:  # Check if AI has won
+                    print("AI Wins!!!")
+                    Sound.play_Win()
+                    exit()
+                clear()
+
+
+def easyAITurn(player, opponent):
+    while True:
+        row = random.randint(0, 9)  # Generate a random row between 0 and 9
+        col = random.randint(0, 9)  # Generate a random column between 0 and 9
+
+        opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+        player_res = player.updateOpponent(row, col, opponent)    # Update AI's view of the opponent's board
+
+        if player_res == 0 or opponent_res == 0:  # If already targeted, retry
+            continue
+        else:
+            break  # Exit the loop when a valid shot is fired
+
+
+
+def mediumAITurn(player, opponent, coordinate_history):
+    # A set to track already fired coordinates, prevents firing on the same position again
+    fired_coordinates = set()
+
+    if coordinate_history:  # If there is already a history of coordinates to check
+        row, col = coordinate_history[0]  # Get the first coordinate from the list
+
+        while coordinate_history:  # Loop through until the history is empty or a valid shot is fired
+            if (row, col) in fired_coordinates:  # Skip if already fired at this position
+                coordinate_history.pop(0)
+                if coordinate_history:
+                    row, col = coordinate_history[0]  # Get the next coordinate
+                else:
+                    break
+                continue
+
+            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+            player_res = player.updateOpponent(row, col, opponent)    # Update AI's view of the opponent's board
+
+            fired_coordinates.add((row, col))  # Track this coordinate as fired
+
+            if player_res == 0 or opponent_res == 0:  # If the spot has already been targeted
+                coordinate_history.pop(0)  # Remove the invalid coordinate
+                if coordinate_history:
+                    row, col = coordinate_history[0]  # Get the next coordinate
+                else:
+                    break
+            else:
+                if opponent_res == 3:  # Add surrounding coordinates if the hit is successful
+                    potential_targets = [
+                        (row - 1, col),  # Up
+                        (row, col + 1),  # Right
+                        (row + 1, col),  # Down
+                        (row, col - 1)   # Left
+                    ]
+
+                    for target_row, target_col in potential_targets:
+                        if 0 <= target_row < 10 and 0 <= target_col < 10 and (target_row, target_col) not in fired_coordinates:
+                            coordinate_history.insert(0, (target_row, target_col))  # Add valid target coordinates to the list
+
+                break  # Exit the loop when a valid shot is fired
+
+    else:  # If no history, fire randomly
+        while True:
+            row = random.randint(0, 9)  # Randomly choose a row
+            col = random.randint(0, 9)  # Randomly choose a column
+
+            if (row, col) in fired_coordinates:  # If this coordinate has already been fired at, skip
+                continue
+
+            opponent_res = opponent.updatePlayer(row, col, opponent)  # Fire at the opponent's board
+            player_res = player.updateOpponent(row, col, opponent)    # Update AI's view of the opponent's board
+
+            fired_coordinates.add((row, col))  # Track this coordinate as fired
+
+            if player_res == 0 or opponent_res == 0:  # If the shot was invalid (already hit or missed)
+                continue
+            else:
+                if opponent_res == 3:  # If a ship is hit but not sunk
+                    potential_targets = [
+                        (row - 1, col),  # Up
+                        (row, col + 1),  # Right
+                        (row + 1, col),  # Down
+                        (row, col - 1)   # Left
+                    ]
+
+                    for target_row, target_col in potential_targets:
+                        if 0 <= target_row < 10 and 0 <= target_col < 10 and (target_row, target_col) not in fired_coordinates:
+                            coordinate_history.insert(0, (target_row, target_col))  # Add valid target coordinates to the list
+
+                break  # Exit the loop when a valid shot is fired
+
+
+def hardAITurn(player, opponent):
+    # Retrieve coordinates of opponent's ships
+    ship_coordinates = opponent.playerMap.get_opponent_ship_coordinates()  # Get the coordinates from opponent's Map class
+    
+    # Find the first available ship part that hasn't been hit yet
+    available_hits = [(row, col) for row, col in ship_coordinates if not opponent.playerMap.is_hit(row, col)]
+    
+    if available_hits:
+        # Select the first available ship part to hit
+        row, col = available_hits[0]
         
-                                                                    # if statements that check if either player has won
-        if p1.opponentSunk == 0:                                    #if player 1's opponent has zero ships
-            print("Player 1 Wins!!!")
-            Sound.play_Win()
-            exit()                                                  #exits the game
-        clear()                                                     #clears the terminal
-        print("Player 2's Turn")
-        Sound.play_Turn()
-        turn(p2,p1)
-        if p2.opponentSunk == 0:                                    #if player 2's opponent has zero ships
-            print("Player 2 Wins!!!")
-            Sound.play_Win()
-            exit()                                                  #exits the game
-        clear()                                                     #clears the terminal
+        opponent_res = opponent.updatePlayer(row, col, opponent)  # AI fires at the opponent's map
+        player_res = player.updateOpponent(row, col, opponent)    # AI updates its view of the opponent's map
+
+    else:
+        print("No available hits found!")  # This shouldn't happen in hard mode
 
 def placeAIShipTurn(player, numShips):
-    ship_coord = ShipGen.gen_ship(numShips)
-    length = numShips
+    ship_coord = ShipGen.gen_ship(numShips)  # Generate ship coordinates
     index = 0
-    while length > 0:
+    while numShips > 0:
+        length = numShips  # Ship length
         col = ord(ship_coord[index][0]) - ord("A")
         row = int(ship_coord[index][1])
 
-        if ship_coord[index][2] == 0:
-            direction = "right"
-        elif ship_coord[index][2] == 1:
-            direction = "down"
-        
-        player.addToFleet(length, row, col, direction)
+        # Boundary check
+        if ship_coord[index][2] == 0 and col + length > 10:  # Right boundary
+            continue  # Skip invalid placement
+        if ship_coord[index][2] == 1 and row + length > 10:  # Down boundary
+            continue  # Skip invalid placement
+
+        direction = "right" if ship_coord[index][2] == 0 else "down"
+        player.addToFleet(length, row, col, direction)  # Place the ship
         os.system('cls' if os.name == 'nt' else 'clear')
         index += 1
-        length -= 1
+        numShips -= 1  # Move to the next ship
 
 
 # function that handles placing ships on the board
@@ -173,17 +351,23 @@ def get_direction():
 # function that handles a player's turn
 def turn(player, opponent):
     while True:
-        player.displayMaps()    #display player's map
-        col = get_column()      #gets the column from the get_column function during the game
-        row = get_row()         #gets the row from the get_row function during the game
+        player.displayMaps()  # Display both player's and opponent's boards
+        col = get_column()  # Get column input
+        row = get_row()  # Get row input
 
-        opponent_res = opponent.updatePlayer(row, col, opponent)    #updates the player from the game
-        player_res = player.updateOpponent(row, col, opponent)      #updates the opponent from the game
-        if player_res == 0 or opponent_res == 0:                    #checks if the spot has been targeted
+        # Check if the spot has already been targeted
+        if opponent.playerMap.map[row][col] in ['X', 'O']:
+            print("You've already targeted this spot. Try again.")
+            Sound.play_Error()
+            continue  # Retry valid coordinate input
+
+        opponent_res = opponent.updatePlayer(row, col, opponent)  # Update opponent's board
+        player_res = player.updateOpponent(row, col, opponent)  # Update player's view of opponent's board
+        if player_res == 0 or opponent_res == 0:  # Check if spot has already been targeted
             print("You've already targeted this spot. Try again.")
             Sound.play_Error()
         else:
-            break                                                   #breaks the loop 
+            break  # Exit loop and continue the game
 
 
 
