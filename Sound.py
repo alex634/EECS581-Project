@@ -30,36 +30,36 @@ class Sound:
     @staticmethod
     def play_Missed():
         '''
-        Plays when a ship is missed. `[Audio] <../../../sounds/splash_cc0.wav>`_
+        Plays when a ship is missed. 
         '''
         playsound('sounds/splash_cc0.wav')
     @staticmethod
     def play_Win():
         '''
-        Plays when the game is won. `[Audio] <../../../sounds/win_cc0.wav>`_
+        Plays when the game is won.
         '''
         playsound('sounds/win_cc0.wav')
     @staticmethod
     def play_Error():
         '''
-        Plays when a user error occurs. `[Audio] <../../../sounds/error_cc0.wav>`_
+        Plays when a user error occurs.
         '''
         playsound('sounds/error_cc0.wav')
     @staticmethod
     def play_Hit():
         '''
-        Plays when a ship is hit. `[Audio] <../../../sounds/hit_cc0.wav>`_
+        Plays when a ship is hit.
         '''
         playsound('sounds/hit_cc0.wav')
     @staticmethod
     def play_Sunk():
         '''
-        Plays when a ship is sunk. `[Audio] <../../../sounds/cloud_cc0.wav>`_
+        Plays when a ship is sunk.
         '''
         playsound('sounds/cloud_cc0.wav')
     @staticmethod
     def play_Turn():
         '''
-        Plays when games switches to the next player. `[Audio] <../../../sounds/turn_cc0.wav>`_
+        Plays when games switches to the next player.
         '''
         playsound('sounds/turn_cc0.wav')

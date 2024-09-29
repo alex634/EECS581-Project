@@ -12,8 +12,4 @@ EECS 581 Battleship documentation
 
    installation
    documentation
-   map.rst
-   player.rst
-   ship.rst
-   shipgen.rst
-   sound.rst
+   api.rst
