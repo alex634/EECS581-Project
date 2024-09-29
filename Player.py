@@ -13,12 +13,16 @@ class Player:
         self.opponentSunk = 0                               #opponent sunk set to 0 for counter
     
     def displayMaps(self):                                  #function to display the boards for the player and opponent board
+        """
+        Prints both the player's board and the opponent's board to standard out.
+        """
         print("Your Board")                                 #prints your board on the screen
         self.playerMap.display()                            #display of the player map
         print("Opponents Board")                            #prints opponents board on the screen
         self.opponentMap.display()                          #display of the opponent map
     
     def displayEmpty(self):                                 #function to display the empty map once it's the player's turn 
+        """Prints the player map to standard out, does not print the opponent map."""
         self.playerMap.display()                            #display player's map  
    
     def addToFleet(self,length,row,col, direction):                 #function to add the ships to the fleet 

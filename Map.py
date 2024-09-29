@@ -19,6 +19,9 @@ class Map:
 
 
     def placeShip(self, length, row, col, direction):                   #function to place the ships
+        """
+        Places a ship on the board. **direction** must be ``left``, ``right``, ``up``, or ``down``.
+        """
         direction = direction.lower()                                   #makes the direction name into lowercase when they put in left, right, up or down
         if direction not in ['left', 'right', 'up', 'down']:            #if the user doesn't put any of these directions
             return False                                                #returns it to false
@@ -115,6 +118,9 @@ class Map:
 
 
     def display(self):                                                              #function to display the player's map
+        """
+        Prints the given map object containing a player's Battleship board to standard out.
+        """
         header = [""] + self.col                                                    #header variable for the columns
         table_data = []                                                             #empty list to store the data of table
         for i, row in enumerate(self.map):                                          #goes through the rows of the map
