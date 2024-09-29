@@ -161,7 +161,7 @@ def main():
                 clear()
 
 
-def easyAITurn(player, opponent, coordinate_history=None):
+def easyAITurn(player, opponent):
     while True:
         row = random.randint(0, 9)  # Generate a random row between 0 and 9
         col = random.randint(0, 9)  # Generate a random column between 0 and 9
