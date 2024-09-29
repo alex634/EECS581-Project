@@ -1,3 +1,6 @@
+> [!NOTE]  
+> Click here for [Supplemental Documentation](https://people.eecs.ku.edu/~t878a585/html/installation.html)
+
 # Battleship
 
 ## Description
