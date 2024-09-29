@@ -3,8 +3,6 @@ Time Estimates
 
 **AI**
 
-Shoot Ships
-
 - Easy `1 Hour`
 
 Firing randomly shouldn't be that hard to implement. Just more or less generating random numbers.
@@ -17,6 +15,10 @@ picking known positions.
 - Hard `1 Hour`
 
 Shouldn't take long to implement, aiming at known locations.
+
+- Place Ships `3 Hours`
+
+Will probably take longer than implementing individual parts of the firing AI. Time isn't reduced by sharing components as is the case with AI.
 
 **Custom Addition**
 
