@@ -10,7 +10,10 @@ from tabulate import tabulate   #imports tabulate to format the tables
 from Sound import Sound
 
 #map class
-class Map:              
+class Map:          
+    """
+    In this game, there are four maps, the personal maps of the player and opponent and the maps of their views of their opponents. This class implements the map for all four cases.
+    """    
     def __init__(self):
         self.map = [[" " for i in range(10)] for j in range(10)]        #10x10 grid with empty spaces
         self.ships = []                                                 #empty list for the ships
@@ -82,6 +85,7 @@ class Map:
         return False                                                                #returns false if not successful
 
     def updatePlayerMap(self,row,col, opponent):                                    #function to update the player's map
+        """This is only ever called if this map is storing a view of what the player sees of their own personal map. This will mark a hit or miss on the board depending on whether or not there is a ship at the given location."""
         if self.map[row][col] == "X" or self.map[row][col] == 'O':                  #if the spot has been targeted
             return 0    
         if isinstance(self.map[row][col], int):                                     #if the ship is hit
@@ -93,7 +97,8 @@ class Map:
             self.map[row][col] = 'O'                                                #marks the spot as a miss with 0
         return 1                                                                    #returns 1 if valid
 
-    def updateOpponentMap(self, row, col, opponent):                                #function to update the opponent's map         
+    def updateOpponentMap(self, row, col, opponent):                                #function to update the opponent's map
+        """This is only ever called if this map is storing a view of what the player sees of their opponent's map. This will search the personal map of the opponent and mark the player's view of the opponent's map accordingly."""        
         if self.map[row][col] == "X" or self.map[row][col] == 'O' or self.map[row][col] == 1 or self.map[row][col] == 2 or self.map[row][col] == 3 or self.map[row][col] == 4 or self.map[row][col] == 5:
             return 0                                                                #if the spot has been target or has a ship part
         if opponent.playerMap.map[row][col] == "X":                                 #if player hits the opponent's ship

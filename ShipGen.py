@@ -1,24 +1,23 @@
 '''
 Author: Harry W
 Date: Sep 27, 2024
-Last Modifited: Sep 27, 2024
+Last Modified: Sep 27, 2024
 Purpose: this program assumes a 10x10 grid which we can use an index from 0 to 99 inclusive
 from there based on the index the row and col can be calculated and checked for ship collisions
 '''
 import random
 
-# the function converts an interger value to a string for the column
-# int for row
+
 def int_to_coord(value):
+    """The function converts an integer value to a string for the column int for row"""
     # the ones position is the column
     col = "ABCDEFGHIJ"[value % 10]
     # the tens position is the row
     row = int(value/10)
     return row, col
 
-# the function add a ship to a list and marks that location as taken
-# so that there won't be two ship on top of each other
 def place_ships(placed_ships, value, ship_size, rotate):
+    "The function add a ship to a list and marks that location as taken so that there won't be two ship on top of each other."""
     # adds the ship as if it's vertical
     if rotate:
         # row
@@ -34,10 +33,8 @@ def place_ships(placed_ships, value, ship_size, rotate):
             # given list
             placed_ships.append(value + i)
 
-# the function generates the ship locations and rotation based on the
-# numbers of ships passed in and returns a tuple of the head of the ship
-# and if the ship are rotated
 def gen_ship(num_ship):
+    """The function generates ship locations and their rotations. It is passed in the amount of ships to generate. Returns a list of tuples in the form (col, row, rotate) for each ship."""
     # save the valid ship head coords and rotation as a tuple
     ship_coord = []
     placed_ships = [-1]
@@ -46,7 +43,7 @@ def gen_ship(num_ship):
         valid_ship = True
         while valid_ship:
             temp_placed_ships = []
-            # ship are asuumed to generate downwards
+            # ship are assumed to generate downwards
             # but we can check if the rotations are valid
             # if the rotations are valid then add it to the list
 
